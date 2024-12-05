@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from codervent.com/syndash/demo/vertical/authentication-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Oct 2024 10:32:53 GMT -->
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Syndash - Bootstrap4 Admin Template</title>
+	<!--favicon-->
+	<link rel="icon" href="/assetsLTE/images/favicon-32x32.png" type="image/png" />
+	<!-- loader-->
+	<link href="/assetsLTE/css/pace.min.css" rel="stylesheet" />
+	<script src="/assetsLTE/js/pace.min.js"></script>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="/assetsLTE/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&amp;family=Roboto&amp;display=swap" />
+	<!-- Icons CSS -->
+	<link rel="stylesheet" href="/assetsLTE/css/icons.css" />
+	<!-- App CSS -->
+	<link rel="stylesheet" href="/assetsLTE/css/app.css" />
+</head>
+
+<body class="bg-register">
+	<!-- wrapper -->
+	<div class="wrapper">
+		<div class="section-authentication-register d-flex align-items-center justify-content-center">
+			<div class="row">
+				<div class="col-12 col-lg-10 mx-auto">
+					<div class="card radius-15 overflow-hidden">
+						<div class="row g-0">
+							<div class="col-xl-6">
+								<div class="card-body p-md-5">
+									<div class="text-center">
+										<img src="/assetsLTE/images/logo-icon.png" width="80" alt="">
+										<h3 class="mt-4 font-weight-bold">Đăng Kí Tài Khoản</h3>
+									</div>
+									<div class="">
+										<div class="d-grid">
+											<a class="btn my-4 shadow-sm btn-white" href="/oauth2/authorization/github">
+												<span class="d-flex justify-content-center align-items-center">
+													<i class='bx bxl-github'></i>
+													<span style="margin-left: 10px">Đăng ký với GitHub</span>
+												</span>
+											</a>
+											<a onclick="loginWithFacebook()" class="btn btn-facebook">
+												<i class="bx bxl-facebook me-1"></i>Đăng nhập với Facebook
+											</a>
+
+										</div>
+										<div class="login-separater text-center mb-4"> <span>OR SIGN UP WITH EMAIL</span>
+											<hr>
+										</div>
+										<div class="form-body">
+											<form class="row g-3" action="/admin/insert" method="post" onsubmit="return validatePasswordMatch()">
+												<div class="col-sm-12">
+													<label for="username" class="form-label">Họ và tên</label>
+													<input type="text" class="form-control" id="username" name="username" placeholder="Jhon">
+												</div>
+												<div class="col-12">
+													<label for="email" class="form-label">Email</label>
+													<input type="email" class="form-control" id="email" name="email" placeholder="example@user.com">
+												</div>
+												<div class="col-12">
+													<label for="passwordhash" class="form-label">Mật khẩu</label>
+													<div class="input-group" id="show_hide_password">
+														<input type="password" class="form-control border-end-0" id="passwordhash" name="passwordhash" placeholder="Enter Password">
+														<a href="javascript:;" class="input-group-text bg-transparent"><i class="bx bx-hide"></i></a>
+													</div>
+												</div>
+												<!-- Hàng nhập lại mật khẩu -->
+												<div class="col-12">
+													<label for="confirm_password" class="form-label">Nhập lại mật khẩu</label>
+													<div class="input-group" id="show_hide_confirm_password">
+														<input type="password" class="form-control border-end-0" id="confirm_password" placeholder="Re-enter Password">
+														<a href="javascript:;" class="input-group-text bg-transparent toggle-password" onclick="togglePasswordVisibility('confirm_password', this)">
+															<i class="bx bx-hide"></i>
+														</a>
+													</div>
+													<small id="passwordError" style="color: red; display: none;">Passwords do not match</small>
+												</div>
+												<div class="col-12">
+													<div class="form-check form-switch">
+														<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+														<label class="form-check-label" for="flexSwitchCheckChecked">Tôi đã đọc và đồng ý với chính sách của công ty</label>
+													</div>
+												</div>
+												<div class="col-12">
+													<div class="d-grid">
+														<button type="submit" class="btn btn-primary"><i class="bx bx-user me-1"></i>Đăng ký</button>
+													</div>
+												</div>
+												<div class="col-12 text-center">
+													<p>Bạn đã có tài khoản? <a href="/admin/security/ADauthentication-login">Đăng nhập </a></p>
+												</div>
+											</form>
+
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="col-xl-6 bg-login-color d-flex align-items-center justify-content-center">
+								<img src="/assetsLTE/images/login-images/register-frent-img.jpg" class="img-fluid" alt="...">
+							</div>
+						</div>
+						<!--end row-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end wrapper -->
+	<!-- JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="/assetsLTE/js/jquery.min.js"></script>
+	<!--Password show & hide js -->
+	<script>
+		$(document).ready(function () {
+			$("#show_hide_password a").on('click', function (event) {
+				event.preventDefault();
+				if ($('#show_hide_password input').attr("type") == "text") {
+					$('#show_hide_password input').attr('type', 'password');
+					$('#show_hide_password i').addClass("bx-hide");
+					$('#show_hide_password i').removeClass("bx-show");
+				} else if ($('#show_hide_password input').attr("type") == "password") {
+					$('#show_hide_password input').attr('type', 'text');
+					$('#show_hide_password i').removeClass("bx-hide");
+					$('#show_hide_password i').addClass("bx-show");
+				}
+			});
+		});
+		// Ẩn hiện re-password
+		function togglePasswordVisibility(fieldId, toggleIcon) {
+			const field = document.getElementById(fieldId);
+			const icon = toggleIcon.querySelector('i');
+			if (field.type === 'password') {
+				field.type = 'text';
+				icon.classList.remove('bx-hide');
+				icon.classList.add('bx-show');
+			} else {
+				field.type = 'password';
+				icon.classList.remove('bx-show');
+				icon.classList.add('bx-hide');
+			}
+		}
+		// Kiểm tra nhập lại password và đảm bảo mật khẩu hợp lệ
+		function validatePasswordMatch() {
+			const password = document.getElementById("passwordhash").value;
+			const confirmPassword = document.getElementById("confirm_password").value;
+			const error = document.getElementById("passwordError");
+
+			// Regular expression for password validation
+			const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
+
+			// Kiểm tra mật khẩu có hợp lệ không
+			if (!passwordRegex.test(password)) {
+				error.textContent = "Mật khẩu phải có ít nhất 8 ký tự, bao gồm: 1 chữ thường, 1 chữ in hoa, 1 số và 1 ký tự đặc biệt.";
+				error.style.display = "block";
+				return false; // Ngăn chặn form được gửi
+			}
+
+			// Kiểm tra nhập lại mật khẩu
+			if (password !== confirmPassword) {
+				error.textContent = "Mật khẩu xác nhận không khớp.";
+				error.style.display = "block";
+				return false; // Ngăn chặn form được gửi
+			}
+
+			// Nếu tất cả hợp lệ
+			error.style.display = "none";
+			return true;
+		}
+
+		document.addEventListener("DOMContentLoaded", function () {
+			const maxLength = 50; // Giới hạn ký tự (thay đổi theo nhu cầu)
+
+			// Lấy tất cả các input
+			const inputs = document.querySelectorAll("input");
+
+			inputs.forEach((input) => {
+				input.addEventListener("input", function () {
+					if (input.value.length > maxLength) {
+						input.value = input.value.slice(0, maxLength); // Cắt chuỗi nếu vượt quá giới hạn
+					}
+				});
+			});
+		});
+
+	</script>
+
+<!--	//Facebook-->
+	<script async defer crossorigin="anonymous"
+			src="https://connect.facebook.net/en_US/sdk.js"></script>
+	<script>
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId      : '8874233125958367', // Thay YOUR_APP_ID bằng App ID của bạn
+				cookie     : true,
+				xfbml      : true,
+				version    : 'v21.0' // Sử dụng phiên bản Graph API mới nhất
+			});
+			FB.AppEvents.logPageView();
+		};
+
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+<script>
+	function loginWithFacebook() {
+		FB.login(function(response) {
+			if (response.status === 'connected') {
+				// Người dùng đã đăng nhập, lấy thông tin
+				FB.api('/me', { fields: 'id,name,email' }, function(userData) {
+					console.log('User Data:', userData);
+					// Gửi dữ liệu đến máy chủ để xử lý đăng nhập
+					fetch('/facebook/login', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(userData),
+					})
+							.then(response => response.json())
+							.then(data => {
+								if (data.token) {
+									localStorage.setItem('authToken', data.token); // Lưu token vào LocalStorage
+									window.location.href = '/home/user/index'; // Chuyển hướng người dùng
+								} else {
+									alert('Login failed!');
+								}
+							})
+							.catch(error => {
+								console.error('Error:', error);
+								alert('Có lỗi xảy ra trong quá trình đăng nhập.');
+							});
+				});
+			} else {
+				alert('Người dùng đã hủy hoặc chưa cấp quyền đăng nhập.');
+			}
+		}, { scope: 'email' }); // Yêu cầu quyền truy cập email
+	}
+
+
+</script>
+
+</body>
+
+
+<!-- Mirrored from codervent.com/syndash/demo/vertical/authentication-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Oct 2024 10:32:53 GMT -->
+</html>

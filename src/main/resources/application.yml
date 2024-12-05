@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.56.1:1521:orcl
+    username: system
+    password: Hai14032004
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    properties:
+      hibernate.dialect: org.hibernate.dialect.OracleDialect
+      hibernate.show_sql: true
+      hibernate.format_sql: true
+  server:
+  servlet:
+    session:
+      timeout: 10000m
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23lihLFRX24wWvnc1I
+            client-secret: bdc12821d9817bc926ead81f3d3055cf5f58c57e
+            redirect-uri: http://localhost:8080/login/oauth2/code/github
+            scope:
+              - user:email
+            authorization-grant-type: authorization_code
+            client-name: GitHub
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: khanhhaivodoi@gmail.com  # Thay your-email@gmail.com bằng email của bạn
+    password: "cuzf tstd xqfh gfqk"    # Thay your-app-password bằng mật khẩu ứng dụng đã tạo
+    protocol: smtp
+    smtp:
+      auth: true
+      starttls:
+        enable: true
+      ssl:
+        trust: smtp.gmail.com
+
+
+

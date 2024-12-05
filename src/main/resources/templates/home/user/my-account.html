@@ -1,0 +1,447 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- Mirrored from htmldemo.net/origine/origine/my-account by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:28 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Origine - Organic Food Bootstrap 4 Template</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico">
+
+    <!-- CSS
+	============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/bootstrap.min.css">
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/vendor/plaza-font.css">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/css/plugins/slick.css">
+    <link rel="stylesheet" href="/assets/css/plugins/swiper.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/animation.css">
+    <link rel="stylesheet" href="/assets/css/plugins/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/plugins/fancy-box.css">
+    <link rel="stylesheet" href="/assets/css/plugins/jqueryui.min.css">
+
+    <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from avobe) -->
+    <!--
+    <script src="/assets/js/vendor/vendor.min.js"></script>
+    <script src="/assets/js/plugins/plugins.min.js"></script>
+    -->
+
+    <!-- Main Style CSS (Please use minify version for better website load performance) -->
+    <link rel="stylesheet" href="/assets/css/style/style.css">
+    <!--<link rel="stylesheet" href="/assets/css/style.min.css">-->
+
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <!--    Header-->
+        <th:block th:replace="~{home/layout/header :: header(header=${headerDTO},cartList=${cartList1},wishlist=${totalWish}, auth=${UserGitSS})}"></th:block>
+        <!--    Header-->
+
+        <!-- breadcrumb-area start -->
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- breadcrumb-list start -->
+                        <ul class="breadcrumb-list">
+                            <li class="breadcrumb-item"><a href="/home/user/index">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Thông tin của tôi</li>
+                        </ul>
+                        <!-- breadcrumb-list end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumb-area end -->
+
+
+        <!-- main-content-wrap start -->
+        <div class="main-content-wrap section-ptb my-account-page">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="account-dashboard">
+                            <div class="dashboard-upper-info">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col-lg-3 col-md-12">
+                                        <div th:if="${UserGitSS} == null" class="d-single-info">
+                                            <p class="user-name">Xin chào <span th:text="${PickUser.username}">Yourmail@info</span></p>
+                                        </div>
+                                        <div th:if="${UserGitSS} != null" class="d-single-info">
+                                            <p class="user-name">Xin chào <span th:text="${UserGitSS.username}">Yourmail@info</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="d-single-info">
+                                            <p>Bạn cần hỗ trợ? Dịch vụ khách hàng tại.
+                                            </p>
+                                            <p>admin@devitems.com.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-12">
+                                        <div class="d-single-info">
+                                            <p>Gửi email cho họ tại</p>
+                                            <p>support@yoursite.com</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-12">
+                                        <div class="d-single-info text-lg-center">
+                                            <a href="/home/user/cart" class="view-cart"><i class="fa fa-cart-plus"></i> Xem giỏ hàng</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-lg-2">
+                                    <!-- Nav tabs -->
+                                    <ul role="tablist" class="nav flex-column dashboard-list">
+                                        <li><a href="#orders" data-bs-toggle="tab" class="nav-link active">Đơn hàng của bạn</a></li>
+                                        <li>
+                                            <a href="#viewOrder" data-bs-toggle="tab" class="nav-link">Chi tiết đơn hàng</a>
+                                        </li>
+                                        <li><a href="#account-details" data-bs-toggle="tab" class="nav-link">Thông tin cá nhân</a></li>
+                                        <form th:action="@{/admin/logout}">
+                                            <li>
+                                                <button style="background-color: transparent; border: none" type="submit" class="nav-link"> Đăng xuất</button>
+                                            </li>
+                                        </form>
+
+                                    </ul>
+                                </div>
+                                <div class="col-md-12 col-lg-10">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content dashboard-content">
+                                        <div class="tab-pane fade active show " id="orders">
+                                            <h3>Đơn hàng đã đặt</h3>
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Mã hóa đơn</th>
+                                                            <th>Ngày đặt</th>
+                                                            <th>Thành tiền</th>
+                                                            <th>Trạng thái</th>
+                                                            <th>Chi tiết</th>
+                                                            <th>Ghi chú</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr id="listOrder" th:each="u : ${dataOrder}" th:if="${u.userid.userid == PickUser.userid}">
+                                                        <td th:text="${u.id}">1</td>
+                                                        <td th:text="${#dates.format(u.orderdate, 'HH:mm dd/MM/yyyy')}">May 10, 2018</td>
+                                                        <td>
+                                                        <span th:each="bill : ${dataBill}" th:if="${u.id == bill.orderid.id}">
+                                                            <span th:text="${@numberFormatter.format(bill.totalprice)}">0</span>
+                                                            <span>đ</span>
+                                                        </span>
+                                                            <span style="margin: 0px 5px" th:text="x">   </span>
+                                                        <span th:each="total : ${dataTotalItem}" th:if="${u.id == total.id}">
+                                                            <span th:text="${total.quantity}">0</span>
+                                                        <span>sản phẩm</span>
+                                                        </span>
+                                                        </td>
+                                                        <td th:text="${u.status}"></td>
+                                                        <td>
+                                                            <form id="myForm" onsubmit="return noScroll()" >
+<!--                                                                -->
+                                                                <button th:id="'buttonOrderDetail-' + ${u.id}"  style="color: dodgerblue; border: none; background-color: transparent" name="s" type="submit" th:value="${u.id}"> Chi tiết</button>
+                                                            </form>
+                                                        </td>
+
+                                                        <form action="/admin/updateOrder" method="post" >
+                                                            <input type="hidden" name="id" th:value="${u.id}">
+                                                            <input type="hidden" name="status" value="Đã hủy">
+                                                            <td th:if="${u.status} == 'Đang xử lý' "><button type="submit" style="color: red; border: none; background-color: transparent">Hủy đơn</button></td>
+                                                        </form>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div th:if="${PickDetail} != null" class="tab-pane fade active show " id="viewdetail">
+                                                <h3>Chi tiết đơn hàng</h3>
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Mã hóa đơn</th>
+                                                            <th>Mặt hàng</th>
+                                                            <th>Số lượng</th>
+                                                            <th>Giá</th>
+                                                            <th>Ngày đặt</th>
+                                                            <th>Số điện thoại</th>
+                                                            <th>Địa chỉ</th>
+                                                            <th>Thanh toán</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr th:if="${PickDetail} != null" >
+                                                            <td  th:text="${dataBillPick.orderid.id}" >a</td>
+                                                            <td>
+                                                                <span th:each="u : ${PickDetail}"   >
+                                                                    <span style="text-wrap: nowrap" th:text="${u.productid.productname}">
+                                                                    </span>
+                                                                    <br>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span th:each="u : ${PickDetail}" >
+                                                                    <span th:text="${u.quantity}"></span>
+                                                                <br>
+                                                                </span>
+                                                            </td>
+                                                            <td style="text-wrap: nowrap">
+                                                                <span  th:each="u : ${PickDetail}"  >
+                                                                    <span th:text="${@numberFormatter.format(u.price)}"></span>
+                                                                    <span>đ</span>
+                                                                    <br>
+                                                                </span>
+                                                            </td>
+                                                            <td style="text-wrap: nowrap"  th:text="${#dates.format(dataBillPick.orderid.orderdate, 'HH:mm dd/MM/yyyy')}">a</td>
+                                                            <td th:text="${dataBillPick.phone}"></td>
+                                                            <td>
+                                                            <span>
+                                                                <span style="text-wrap: nowrap" th:text="${dataBillPick.streetaddress + ' - ' + dataBillPick.ward }">0</span>
+                                                                <br>
+                                                                <span th:text="${' - ' + dataBillPick.district + ' - ' + dataBillPick.city}">0</span>
+                                                            </span>
+                                                            </td>
+                                                            <td th:text="${dataBillPick.paymentMethod}"></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade " id="viewOrder">
+                                            <h3>Chi tiết đơn hàng</h3>
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr style="text-wrap: nowrap">
+                                                        <th style="text-wrap: nowrap">Mã hóa đơn</th>
+                                                        <th style="width: 250px">Mặt hàng</th>
+                                                        <th style="width: 120px">Giá</th>
+                                                        <th>Người nhận</th>
+                                                        <th>Số điện thoại</th>
+                                                        <th >Địa chỉ</th>
+                                                        <th>Thanh toán</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:each="u : ${dataOrder}" th:if="${u.userid.userid == PickUser.userid}">
+                                                        <td style="width: 50px;" th:text="${u.id}">1</td>
+                                                        <td style="text-wrap: nowrap">
+                                                            <div class="limited-content-container">
+                                                                <span th:each="k : ${dataDetail}" th:if="${u.id == k.orderid.id}">
+                                                                    <span th:text="${k.productid.productname}">0</span>
+                                                                    <span style="margin: 0px 5px" th:text="x">   </span>
+                                                                    <span th:text="${k.quantity}">0</span>
+                                                                    <br>
+                                                                </span>
+                                                            </div>
+                                                            <button class="show-more-btn" style="display: none;" onclick="toggleContent(this)">Xem thêm</button>
+                                                        </td>
+
+                                                        <td style="text-wrap: nowrap">
+                                                            <div class="limited-content-container">
+                                                                <span th:each="k : ${dataDetail}" th:if="${u.id == k.orderid.id}">
+                                                                <span style="min-width: 150px" th:text="${@numberFormatter.format(k.price)}"></span>
+                                                            <span>đ</span>
+                                                            <br>
+                                                            </span>
+                                                            </div>
+                                                            <button class="show-more-btn" style="display: none;" onclick="toggleContent(this)">Xem thêm</button>
+                                                        </td>
+                                                        <td style="text-wrap: nowrap">
+                                                            <span th:each="bill : ${dataBill}" th:if="${u.id == bill.orderid.id}">
+                                                                <span th:text="${bill.name}">0</span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span th:each="bill : ${dataBill}" th:if="${u.id == bill.orderid.id}">
+                                                                <span th:text="${bill.phone}">0</span>
+                                                            </span>
+                                                        </td>
+                                                        <td style="text-wrap: nowrap">
+                                                            <span th:each="bill : ${dataBill}" th:if="${u.id == bill.orderid.id}">
+                                                                <span th:text="${bill.streetaddress + ' - ' + bill.ward }">0</span>
+                                                                <br>
+                                                                <span th:text="${' - ' + bill.district + ' - ' + bill.city}">0</span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span th:each="bill : ${dataBill}" th:if="${u.id == bill.orderid.id}">
+                                                                <span style="width: 70px; display: inline-block" th:text="${bill.paymentMethod}">0</span>
+                                                            </span>
+                                                        </td>
+
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="account-details">
+                                            <h3>Thông tin tài khoản </h3>
+                                            <div class="login">
+                                                <div class="login-form-container">
+                                                    <div class="account-login-form">
+                                                        <form action="/admin/update" method="post" style="display: contents;">
+                                                            <input type="hidden" name="userid" th:value="${PickUser.userid}">
+                                                            <div class="account-input-box">
+                                                                <label>Họ và tên</label>
+                                                                <input type="text" name="username" th:if="${PickUser} != null" th:value="${PickUser.username}">
+                                                                <label>Email</label>
+                                                                <input type="text" th:if="${PickUser} != null" th:value="${PickUser.email}" disabled>
+                                                                <label for="phone" >Số điện thoại</label>
+                                                                <input th:if="${PickUser} != null" type="text" id="phone" name="phone" th:value="${PickUser.phone}" placeholder="0123456789">
+                                                            </div>
+                                                            <a style="color: deepskyblue;margin-bottom: 10px" id="changePasswordLink" onclick="togglePasswordForm()">Đổi mật khẩu</a>
+                                                            <button style="background-color: #0E7346; color: #fff; border: none; padding: 5px 10px; display: block" type="submit">Lưu thay đổi</button>
+                                                        </form>
+                                                        <div id="passwordFormContainer" class="account-input-box" style="display: none;">
+                                                            <form action="/home/user/update-password" method="post" th:if="${PickUser} != null"  th:object="${PickUser}">
+                                                                <input type="hidden" name="userid" th:if="${PickUser} != null"  th:value="${PickUser.userid}">
+                                                                <div>
+                                                                    <label for="currentPassword">Mật khẩu hiện tại:</label>
+                                                                    <input type="password" id="currentPassword" name="currentPassword" required />
+                                                                </div>
+                                                                <div>
+                                                                    <label for="newPassword">Mật khẩu mới:</label>
+                                                                    <input type="password" id="newPassword" name="newPassword" required />
+                                                                </div>
+                                                                <div>
+                                                                    <label for="confirmPassword">Xác nhận mật khẩu:</label>
+                                                                    <input type="password" id="confirmPassword" name="confirmPassword" required />
+                                                                </div>
+                                                                <button type="submit">Đổi mật khẩu</button>
+                                                            </form>
+                                                        </div>
+
+                                                        <script>
+                                                            function togglePasswordForm() {
+                                                                const formContainer = document.getElementById("passwordFormContainer");
+                                                                if (formContainer.style.display === "none" || formContainer.style.display === "") {
+                                                                    formContainer.style.display = "block"; // Hiển thị form
+                                                                } else {
+                                                                    formContainer.style.display = "none"; // Ẩn form
+                                                                }
+                                                            }
+                                                        </script>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main-content-wrap end -->
+
+        <script>
+            function noScroll() {
+                // Lưu vị trí cuộn hiện tại
+                var currentScrollPos = window.scrollY;
+
+                // Submit form sau khi đã lưu vị trí
+                setTimeout(function() {
+                    window.scrollTo(0, currentScrollPos); // Quay lại vị trí cuộn ban đầu
+                }, 0);
+
+                return true;  // Cho phép submit form
+            }
+        </script>
+
+
+
+        <!-- Footer -->
+        <th:block th:replace="~{home/layout/footer :: footer}"></th:block>
+        <!-- Footer -->
+
+
+    </div>
+
+    <!-- JS
+============================================ -->
+
+    <!-- Modernizer JS -->
+    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="/assets/js/vendor/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="/assets/js/vendor/popper.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap.min.js"></script>
+
+    <!-- Plugins JS -->
+    <script src="/assets/js/plugins/slick.min.js"></script>
+    <script src="/assets/js/plugins/swiper.min.js"></script>
+    <script src="/assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/plugins/countdown.min.js"></script>
+    <script src="/assets/js/plugins/image-zoom.min.js"></script>
+    <script src="/assets/js/plugins/fancybox.js"></script>
+    <script src="/assets/js/plugins/scrollup.min.js"></script>
+    <script src="/assets/js/plugins/jqueryui.min.js"></script> <script src="/assets/js/plugins/ajax-contact.js"></script>
+
+    <!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
+    <!--
+<script src="/assets/js/vendor/vendor.min.js"></script>
+<script src="/assets/js/plugins/plugins.min.js"></script>
+-->
+
+    <!-- Main JS -->
+    <script src="/assets/js/main.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tdElements = document.querySelectorAll(".limited-content-container");
+
+        tdElements.forEach((container) => {
+            const button = container.nextElementSibling; // Nút "Xem thêm"
+            const lineHeight = parseFloat(getComputedStyle(container).lineHeight); // Lấy chiều cao dòng
+            const maxLines = 2; // Giới hạn 2 dòng
+
+            // Kiểm tra nếu nội dung vượt quá 2 dòng
+            if (container.scrollHeight > lineHeight * maxLines) {
+                button.style.display = "inline-block"; // Hiển thị nút "Xem thêm"
+            }
+        });
+    });
+
+    function toggleContent(button) {
+        const container = button.previousElementSibling; // Lấy div chứa nội dung
+        if (container.classList.contains("expanded")) {
+            container.classList.remove("expanded");
+            button.textContent = "Xem thêm";
+        } else {
+            container.classList.add("expanded");
+            button.textContent = "Thu gọn";
+        }
+    }
+
+
+</script>
+
+</body>
+
+
+<!-- Mirrored from htmldemo.net/origine/origine/my-account by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:28 GMT -->
+</html>

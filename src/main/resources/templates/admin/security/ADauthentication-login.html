@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from codervent.com/syndash/demo/vertical/authentication-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Oct 2024 10:32:52 GMT -->
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Syndash - Bootstrap4 Admin Template</title>
+	<!--favicon-->
+	<link rel="icon" href="/assetsLTE/images/favicon-32x32.png" type="image/png" />
+	<!-- loader-->
+	<link href="/assetsLTE/css/pace.min.css" rel="stylesheet" />
+	<script src="/assetsLTE/js/pace.min.js"></script>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="/assetsLTE/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&amp;family=Roboto&amp;display=swap" />
+	<!-- Icons CSS -->
+	<link rel="stylesheet" href="/assetsLTE/css/icons.css" />
+	<!-- App CSS -->
+	<link rel="stylesheet" href="/assetsLTE/css/app.css" />
+</head>
+
+<body class="bg-login">
+	<!-- wrapper -->
+	<div class="wrapper">
+		<div class="section-authentication-login d-flex align-items-center justify-content-center mt-4">
+			<div class="row">
+				<div class="col-12 col-lg-8 mx-auto">
+					<div class="card radius-15 overflow-hidden">
+						<div class="row g-0">
+							<div class="col-xl-6">
+								<div class="card-body p-5">
+									<div class="text-center">
+										<img src="/assetsLTE/images/logo-icon.png" width="80" alt="">
+										<h3 class="mt-4 font-weight-bold">Welcome Back</h3>
+									</div>
+									<div class="">
+										<div class="d-grid">
+											<a class="btn my-4 shadow-sm btn-white" href="/oauth2/authorization/github">
+												<span class="d-flex justify-content-center align-items-center">
+													<i class='bx bxl-github'></i>
+													<span style="margin-left: 10px">Đăng nhập với GitHub</span>
+												</span>
+											</a>
+											<a onclick="loginWithFacebook()" class="btn btn-facebook">
+												<i class="bx bxl-facebook me-1"></i>Đăng nhập với Facebook
+											</a>
+										</div>
+										<div class="login-separater text-center mb-4"> <span>OR SIGN IN WITH EMAIL</span>
+											<hr>
+										</div>
+										<div class="form-body">
+											<form class="row g-3" method="post">
+												<div class="col-12">
+													<label for="email" class="form-label">Email</label>
+													<input type="email" class="form-control" id="email" name="username"  placeholder="Email Address">
+												</div>
+												<div class="col-12">
+													<label for="passwordhash" class="form-label">Mật khẩu</label>
+													<div class="input-group" id="show_hide_password">
+														<input type="password" class="form-control border-end-0" id="passwordhash" name="password" value="" placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class="bx bx-hide"></i></a>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-check form-switch">
+														<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+														<label class="form-check-label" for="flexSwitchCheckChecked">Ghi nhớ</label>
+													</div>
+												</div>
+												<div class="col-md-6 text-end">
+													<a href="/admin/security/authentication-forgot-password">Quên mật khẩu ?</a>
+												</div>
+												<div class="col-12">
+													<div class="d-grid">
+														<button type="submit" class="btn btn-primary"><i class="bx bxs-lock-open"></i>Sign in</button>
+													</div>
+												</div>
+												<div class="col-12 text-center">
+													<p>Bạn chưa có tài khoản? <a href="authentication-register">Đăng ký </a></p>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							 </div>
+							<div class="col-xl-6 bg-login-color d-flex align-items-center justify-content-center">
+								<img src="/assetsLTE/images/login-images/login-frent-img.jpg" class="img-fluid" alt="...">
+							</div>
+						</div>
+						<!--end row-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end wrapper -->
+</body>
+
+<!--plugins-->
+<script src="/assetsLTE/js/jquery.min.js"></script>
+<!--Password show & hide js -->
+<script>
+	$(document).ready(function () {
+		$("#show_hide_password a").on('click', function (event) {
+			event.preventDefault();
+			if ($('#show_hide_password input').attr("type") == "text") {
+				$('#show_hide_password input').attr('type', 'password');
+				$('#show_hide_password i').addClass("bx-hide");
+				$('#show_hide_password i').removeClass("bx-show");
+			} else if ($('#show_hide_password input').attr("type") == "password") {
+				$('#show_hide_password input').attr('type', 'text');
+				$('#show_hide_password i').removeClass("bx-hide");
+				$('#show_hide_password i').addClass("bx-show");
+			}
+		});
+	});
+</script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const maxLength = 50; // Giới hạn ký tự (thay đổi theo nhu cầu)
+
+		// Lấy tất cả các input
+		const inputs = document.querySelectorAll("input");
+
+		inputs.forEach((input) => {
+			input.addEventListener("input", function () {
+				if (input.value.length > maxLength) {
+					input.value = input.value.slice(0, maxLength); // Cắt chuỗi nếu vượt quá giới hạn
+				}
+			});
+		});
+	});
+</script>
+<!--	//Facebook-->
+<script async defer crossorigin="anonymous"
+		src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script>
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId      : '8874233125958367', // Thay YOUR_APP_ID bằng App ID của bạn
+			cookie     : true,
+			xfbml      : true,
+			version    : 'v21.0' // Sử dụng phiên bản Graph API mới nhất
+		});
+		FB.AppEvents.logPageView();
+	};
+
+	(function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src = "https://connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
+<script>
+	function loginWithFacebook() {
+		FB.login(function(response) {
+			if (response.status === 'connected') {
+				// Người dùng đã đăng nhập, lấy thông tin
+				FB.api('/me', { fields: 'id,name,email' }, function(userData) {
+					console.log('User Data:', userData);
+					// Gửi dữ liệu đến máy chủ để xử lý đăng nhập
+					fetch('/facebook/login', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(userData),
+					})
+							.then(response => response.json())
+							.then(data => {
+								if (data.token) {
+									localStorage.setItem('authToken', data.token);
+
+									// Gọi endpoint để đồng bộ với Spring Security
+									fetch('/security/facebook-auth', {
+										method: 'POST',
+										headers: {
+											'Authorization': `${data.token}`,
+											'Content-Type': 'application/json',
+										}
+									})
+											.then(() => {
+												window.location.href = '/home/user/index';
+											})
+											.catch(error => console.error('Error syncing with Spring Security:', error));
+								} else {
+									alert('Login failed!');
+								}
+							})
+							.catch(error => {
+								console.error('Error:', error);
+								alert('Có lỗi xảy ra trong quá trình đăng nhập.');
+							});
+				});
+			} else {
+				alert('Người dùng đã hủy hoặc chưa cấp quyền đăng nhập.');
+			}
+		}, { scope: 'email' }); // Yêu cầu quyền truy cập email
+	}
+
+
+</script>
+
+
+<!-- Mirrored from codervent.com/syndash/demo/vertical/authentication-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Oct 2024 10:32:53 GMT -->
+</html>

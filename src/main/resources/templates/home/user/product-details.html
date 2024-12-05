@@ -1,0 +1,471 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- Mirrored from htmldemo.net/origine/origine/product-details by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:41 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Origine - Chi tiết sản phẩm</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico">
+
+    <!-- CSS
+	============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/bootstrap.min.css">
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/vendor/plaza-font.css">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/css/plugins/slick.css">
+    <link rel="stylesheet" href="/assets/css/plugins/swiper.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/animation.css">
+    <link rel="stylesheet" href="/assets/css/plugins/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/plugins/fancy-box.css">
+    <link rel="stylesheet" href="/assets/css/plugins/jqueryui.min.css">
+
+    <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from avobe) -->
+    <!--
+    <script src="/assets/js/vendor/vendor.min.js"></script>
+    <script src="/assets/js/plugins/plugins.min.js"></script>
+    -->
+
+    <!-- Main Style CSS (Please use minify version for better website load performance) -->
+    <link rel="stylesheet" href="/assets/css/style/style.css">
+    <!--<link rel="stylesheet" href="/assets/css/style.min.css">-->
+
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <!--    Header-->
+        <th:block th:replace="~{home/layout/header :: header(header=${headerDTO},cartList=${cartList1},wishlist=${totalWish}, auth=${UserGitSS})}"></th:block>
+        <!--    Header-->
+
+        <!-- breadcrumb-area start -->
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- breadcrumb-list start -->
+                        <ul class="breadcrumb-list">
+                            <li class="breadcrumb-item"><a href="/home/user/index">Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a th:href="@{/home/user/shop-category/{id}(id=${Oneproduct.categoryid.id})}" th:text="${Oneproduct.categoryid.categoryname}"></a></li>
+                            <li class="breadcrumb-item active">
+                                Chi tiết sản phẩm
+                            </li>
+                        </ul>
+                        <!-- breadcrumb-list end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumb-area end -->
+
+
+        <!-- main-content-wrap start -->
+        <div class="main-content-wrap shop-page section-ptb">
+            <div class="container">
+                <div class="row single-product-area product-details-inner">
+                    <div class="col-lg-5 col-md-6">
+                        <div class="product-large-slider">
+                            <div class="pro-large-img img-zoom">
+                                <img th:src="${Oneproduct.image}" alt="product-details" />
+                                <a th:href="${Oneproduct.image}" data-fancybox="images"><i class="fa fa-search"></i></a>
+                            </div>
+<!--                            // Thêm 1 cột nữa để lấy ảnh to -->
+                        </div>
+                        <div class="product-nav">
+                            <div th:each="u : ${imageList}" class="pro-nav-thumb">
+                                <img th:src="${u}" alt="product-details" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-6">
+                        <div class="product-details-view-content">
+                            <div class="product-info">
+                                <h3 th:text="${Oneproduct.productname}"></h3>
+                                <div class="product-rating d-flex">
+                                    <ul class="d-flex">
+                                        <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                            <li th:class="${i <= AbsStar} ? '' : 'bad-reting'">
+                                                <a href="#"><i class="icon-star"></i></a>
+                                            </li>
+                                        </th:block>
+                                    </ul>
+                                    <a href="#reviews">(<span class="count" th:if="${reviewsByProduct} != null" th:text="${reviewsByProduct.size()}">1</span> customer review)</a>
+                                </div>
+                                <div th:if="${saleByProduct != null} " class="price-box">
+                                    <span  class="new-price" style="font-weight: bold" th:text="${@numberFormatter.format(Oneproduct.price * saleByProduct.salepercentage)}" ></span><span style="font-size: 0.8em;">đ</span>
+                                    <span  class="old-price" th:text="${@numberFormatter.format(Oneproduct.price)}"></span><span class="old-price" style="font-size: 0.8em;">đ</span>
+                                </div>
+                                <div th:if="${saleByProduct == null} " class="price-box">
+                                    <span class="new-price" style="font-weight: bold" th:text="${@numberFormatter.format(Oneproduct.price)}" ></span><span  style="font-size: 0.8em;">đ</span>
+                                </div>
+
+                                <p th:utext="${Oneproduct.shortdesc}">Mô tả ngắn</p>
+                                <div class="single-add-to-cart">
+                                    <form th:action="@{/home/user/addtocart}" method="get" class="cart-quantity d-flex">
+                                        <input type="hidden" name="id" th:value="${Oneproduct.id}">
+                                        <div class="quantity">
+                                            <div class="cart-plus-minus">
+                                                <input th:if="${Oneproduct.stock} > 0" style="width: auto" type="number" class="input-text" name="quantity" value="1" th:max="${Oneproduct.stock}" min="1" title="Qty">
+                                                <input th:if="${Oneproduct.stock} == 0" type="number" class="input-text" name="quantity" value="1" disabled min="1" title="Qty">
+                                            </div>
+                                        </div>
+                                        <div class="product-button-action">
+                                        <button class="add-to-cart"
+                                                type="submit"
+                                                th:classappend="${Oneproduct.stock > 0 ? '' : 'out-of-stock'}"
+                                                th:disabled="${Oneproduct.stock == 0}">
+                                            Thêm vào giỏ hàng
+                                        </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <ul class="single-add-actions">
+                                    <p th:text="'Đơn vị : ' + ${Oneproduct.unit}">
+                                    </p>
+                                    <li class="add-to-wishlist">
+                                        <a th:href="@{/home/user/addtowishlist(id=${Oneproduct.id})}" class="add_to_wishlist">
+                                            <i th:if="${#lists.contains(wishlistIds, Oneproduct.id)}" class="icon-heart" style='color:#fd7206' ></i>
+                                            <i th:unless="${#lists.contains(wishlistIds, Oneproduct.id)}" class="icon-heart"></i>
+                                            Yêu thích
+                                        </a>
+                                    </li>
+
+                                </ul>
+                                <ul class="stock-cont">
+                                    <li class="product-sku">
+                                        Danh mục:
+                                        <a href="#" th:text="${Oneproduct.categoryid.categoryname}" ></a>
+                                    </li>
+
+                                    <li class="product-stock-status">Trạng thái:
+                                        <span th:if="${Oneproduct.stock == 0}" class="out-stock">Hết hàng</span>
+                                        <span th:if="${Oneproduct.stock > 0}" class="in-stock">Còn hàng</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="product-description-area section-pt">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="product-details-tab">
+                                <ul role="tablist" class="nav">
+                                    <li class="active" role="presentation">
+                                        <a data-bs-toggle="tab" role="tab" href="#description" class="active">Mô tả</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a data-bs-toggle="tab" role="tab" href="#reviews">Đánh giá</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="product_details_tab_content tab-content">
+                                <!-- Start Single Content -->
+                                <div class="product_tab_content tab-pane active" id="description" role="tabpanel">
+                                    <div class="product_description_wrap  mt-30">
+                                        <div style="text-align: justify;" class="product_desc mb-30">
+                                            <p th:utext="${Oneproduct.description}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Single Content -->
+                                <!-- Start Single Content -->
+                                <div class="product_tab_content tab-pane" id="reviews" role="tabpanel">
+                                    <div class="review_address_inner mt-30">
+                                        <!-- Start Single Review -->
+                                        <div class="pro_review">
+                                            <div class="review_thumb">
+                                                <img alt="review images" src="/assets/images/other/reviewer-60x60.jpg">
+                                            </div>
+                                            <div th:each="u : ${reviewsByProduct}" class="review_details">
+                                                <div  class="review_info mb-10">
+                                                    <ul class="product-rating d-flex mb-10">
+                                                        <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                                            <li th:class="${i <= u.rating} ? '' : 'bad-reting'">
+                                                                <a><i class="icon-star"></i></a>
+                                                            </li>
+                                                        </th:block>
+                                                    </ul>
+                                                    <h5 th:text="${u.userid.username}">Admin <span th:text="${u.ratingdate}" > </span></h5>
+                                                </div>
+                                                <p th:text="${u.review}"></p>
+                                            </div>
+                                        </div>
+                                        <!-- End Single Review -->
+                                    </div>
+                                    <!-- Start RAting Area -->
+
+                                    <div th:if="${reviewsByProduct != null}" >
+                                        <form th:if="${showMessage}" id="insertReviewForm" action="/home/insertReviewHome" method="POST">
+                                            <input type="hidden" name="productid"  th:value="${Oneproduct.id}">
+                                            <input th:if="${userPick != null}" type="hidden" name="userid"  th:value="${userPick.userid}">
+                                            <div class="rating_wrap mt-50">
+                                                <h5 class="rating-title-1">Thêm 1 đánh giá </h5>
+                                                <h6 class="rating-title-2">Vui lòng chọn số sao mong muốn : </h6>
+                                                <div class="rating_list">
+                                                    <div class="review_info mb-10">
+                                                        <ul id="star-rating" class="product-rating d-flex mb-10">
+                                                            <!-- Các ngôi sao -->
+                                                            <li data-value="1"><span class="icon-star"></span></li>
+                                                            <li data-value="2"><span class="icon-star"></span></li>
+                                                            <li data-value="3"><span class="icon-star"></span></li>
+                                                            <li data-value="4"><span class="icon-star"></span></li>
+                                                            <li data-value="5"><span class="icon-star"></span></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- Input hidden để gửi giá trị sao -->
+                                                    <input type="hidden" name="rating" id="rating-value" value="0">
+                                                </div>
+                                            </div>
+                                            <!-- End RAting Area -->
+                                            <div class="comments-area comments-reply-area">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="comment-form-comment mt-15">
+                                                            <label>Đánh giá</label>
+                                                            <textarea name="review" class="comment-notes" required="required"></textarea>
+                                                        </div>
+                                                        <!-- Kiểm tra nếu người dùng đã đăng nhập -->
+                                                        <div th:if="${#authentication.principal != null && #authentication.name != 'anonymousUser'}">
+                                                            <!-- Hiển thị nút gửi bình luận nếu đã đăng nhập -->
+                                                            <div class="comment-form-submit mt-15">
+                                                                <input type="submit" value="Gửi" class="comment-submit">
+                                                            </div>
+                                                        </div>
+                                                        <div th:if="${#authentication.principal == null || #authentication.name == 'anonymousUser'}">
+                                                            <!-- Nếu chưa đăng nhập, hiển thị thông báo và nút dẫn đến trang đăng nhập -->
+                                                            <p>Vui lòng <a style="color: #0d95e8" href="/admin/security/ADauthentication-login">Đăng Nhập Tại Đây</a> để gửi bình luận.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                                <!-- End Single Content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="related-product-area section-pt">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="section-title">
+                                <h3> Sản phẩm giảm giá liên quan</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-8 product-row-6-active">
+                        <div th:each="u : ${RelatedSaleProduct}" class="product-col">
+                            <!-- Single Product Start -->
+                            <div class="single-product-wrap mt-10">
+                                <div class="product-image">
+                                    <a th:href="@{/home/user/product-details(id=${u.productid.id})}">
+                                        <img th:src="${u.productid.image}" alt="">
+                                    </a>
+                                    <span class="onsale">Sale!</span>
+                                </div>
+                                <div class="product-button">
+                                    <a th:href="@{/home/user/addtowishlist(id=${u.productid.id})}" class="add-to-wishlist">
+                                        <i th:if="${#lists.contains(wishlistIds, u.productid.id)}" class="icon-heart" style='color:#fd7206' ></i>
+                                        <i th:unless="${#lists.contains(wishlistIds, u.productid.id)}" class="icon-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-content">
+                                    <div class="price-box">
+                                        <span class="new-price" th:text="${@numberFormatter.format(u.productid.price * u.salepercentage)}"></span><span style="font-size: smaller;">đ</span>
+                                        <span class="old-price" th:text="${@numberFormatter.format(u.productid.price)}"> </span><span class="old-price" style="font-size: smaller;">đ</span>
+                                    </div>
+                                    <h6 class="product-name">
+                                        <a th:href="@{/home/user/product-details(id=${u.productid.id})}" th:text="${u.productid.productname}"></a>
+                                    </h6>
+
+                                    <div class="product-button-action">
+                                        <a class="add-to-cart" th:if="${u.productid.stock} > 0" th:href="@{/home/user/addtocart(id = ${u.productid.id})}">Thêm vào giỏ hàng</a>
+                                        <span th:if="${u.productid.stock} == 0" class="out-stock" >Hết hàng</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Single Product End -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="related-product-area section-pt">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="section-title">
+                                <h3>Sản phẩm giảm giá khác</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-8 product-row-6-active">
+                        <div class="product-col" th:each="u : ${dataSale}">
+                            <form action="">
+                                <div class="single-product-wrap mt-10">
+                                    <div class="product-image">
+                                        <a th:href="@{/home/user/product-details(id=${u.productid.id})}">
+                                            <img th:src="${u.productid.image}" alt="Sản phẩm">
+                                        </a>
+                                        <span class="onsale">Sale!</span>
+                                    </div>
+                                    <div class="product-button">
+                                        <a th:href="@{/home/user/addtowishlist(id=${u.productid.id})}" class="add-to-wishlist">
+                                            <i th:if="${#lists.contains(wishlistIds, u.productid.id)}" class="icon-heart" style='color:#fd7206' ></i>
+                                            <i th:unless="${#lists.contains(wishlistIds, u.productid.id)}" class="icon-heart"></i>
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="price-box">
+                                            <span class="new-price" th:text="${@numberFormatter.format(u.productid.price * u.salepercentage)}"></span><span style="font-size: smaller;">đ</span>
+                                            <span class="old-price" th:text="${@numberFormatter.format(u.productid.price)}"> </span><span class="old-price" style="font-size: smaller;">đ</span>
+                                        </div>
+                                        <h6 class="product-name">
+                                            <a th:href="@{/home/user/product-details(id=${u.productid.id})}" th:text="${u.productid.productname}">Tên sản phẩm</a>
+                                        </h6>
+                                        <div class="product-button-action">
+                                            <a class="add-to-cart" th:if="${u.productid.stock} > 0" th:href="@{/home/user/addtocart(id = ${u.productid.id})}">Thêm vào giỏ hàng</a>
+                                            <span th:if="${u.productid.stock} == 0" class="out-stock" >Hết hàng</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- main-content-wrap end -->
+
+        <div class="our-brand-area section-pt-100 section-pb-100 brand-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="our-brand-active">
+                            <div class="brand-group">
+                                <div class="brand-item">
+                                    <a href="#"><img src="/assets/images/brand/brand-01.png" alt=""></a>
+                                </div>
+                                <div class="brand-item">
+                                    <a href="#"><img src="/assets/images/brand/brand-03.png" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="brand-group">
+                                <div class="brand-item">
+                                    <a href="#"><img src="/assets/images/brand/brand-02.png" alt=""></a>
+                                </div>
+                                <div class="brand-item">
+                                    <a href="#"><img src="/assets/images/brand/brand-04.png" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="brand-group">
+                                <div class="brand-item">
+                                    <a href="#"><img src="/assets/images/brand/brand-03.png" alt=""></a>
+                                </div>
+                                <div class="brand-item">
+                                    <a href="#"><img src="/assets/images/brand/brand-01.png" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="brand-group">
+                                <div class="brand-item">
+                                    <a href="#"><img src="/assets/images/brand/brand-04.png" alt=""></a>
+                                </div>
+                                <div class="brand-item">
+                                    <a href="#"><img src="/assets/images/brand/brand-03.png" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="brand-group">
+                                <div class="brand-item">
+                                    <a href="#"><img src="/assets/images/brand/brand-06.png" alt=""></a>
+                                </div>
+                                <div class="brand-item">
+                                    <a href="#"><img src="/assets/images/brand/brand-03.png" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <th:block th:replace="~{home/layout/footer :: footer}"></th:block>
+        <!-- Footer -->
+
+    </div>
+
+    <!-- JS
+============================================ -->
+
+    <!-- Modernizer JS -->
+    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="/assets/js/vendor/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="/assets/js/vendor/popper.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap.min.js"></script>
+
+    <!-- Plugins JS -->
+    <script src="/assets/js/plugins/slick.min.js"></script>
+    <script src="/assets/js/plugins/swiper.min.js"></script>
+    <script src="/assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/plugins/countdown.min.js"></script>
+    <script src="/assets/js/plugins/image-zoom.min.js"></script>
+    <script src="/assets/js/plugins/fancybox.js"></script>
+    <script src="/assets/js/plugins/scrollup.min.js"></script>
+    <script src="/assets/js/plugins/jqueryui.min.js"></script>
+     <script src="/assets/js/plugins/ajax-contact.js"></script>
+
+    <!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
+    <!--
+<script src="/assets/js/vendor/vendor.min.js"></script>
+<script src="/assets/js/plugins/plugins.min.js"></script>
+-->
+
+    <!-- Main JS -->
+    <script src="/assets/js/main.js"></script>
+    <script>
+        // JavaScript để xử lý sự kiện click
+        document.querySelectorAll('#star-rating li').forEach((star, index) => {
+            star.addEventListener('click', function () {
+                // Xóa class bad-reting từ tất cả các sao
+                document.querySelectorAll('#star-rating li').forEach((s) => s.classList.remove('bad-reting'));
+
+                // Gán class bad-reting cho các sao sau ngôi sao được chọn
+                document.querySelectorAll('#star-rating li').forEach((s, i) => {
+                    if (i > index) {
+                        s.classList.add('bad-reting');
+                    }
+                });
+
+                // Cập nhật giá trị của input hidden
+                document.getElementById('rating-value').value = star.getAttribute('data-value');
+            });
+        });
+    </script>
+
+</body>
+
+
+<!-- Mirrored from htmldemo.net/origine/origine/product-details by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:43 GMT -->
+</html>
