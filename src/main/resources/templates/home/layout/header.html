@@ -30,11 +30,6 @@
                                     Giỏ hàng
                                 </a>
                             </li>
-                            <li>
-                                <a th:href="${#authentication.principal == null ? '/admin/security/ADauthentication-login' : '/home/user/checkout'}">
-                                    Đơn mua
-                                </a>
-                            </li>
                             <!-- Hiển thị "Thông tin" nếu đã đăng nhập -->
                             <li sec:authorize="isAuthenticated()">
                                 <a th:if="${auth} == null" th:href="@{/home/user/my-account/{email}(email=${#authentication.name})}">

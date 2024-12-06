@@ -13,6 +13,8 @@ public interface ReviewService {
 
     List<OgnStarrating> findStatus();
     Map<OgnProduct, Integer> getAverageStarRatings();
+    Integer Totalreview();
+
     //CRUD Admin
     OgnStarrating insertReview(OgnStarrating review);
     OgnStarrating updateReview(OgnStarrating review);

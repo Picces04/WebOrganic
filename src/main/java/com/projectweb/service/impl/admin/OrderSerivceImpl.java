@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,33 +28,38 @@ public class OrderSerivceImpl implements OrderService {
     @Override
     public Page<OgnOrder> findAll(int pageNumber, String search) {
         try {
-            Pageable pageable = PageRequest.of(pageNumber - 1, 10);
+            // Thêm sắp xếp theo orderdate (mới nhất trước)
+            Pageable pageable = PageRequest.of(pageNumber - 1, 10, Sort.by(Sort.Direction.DESC, "orderdate"));
             Specification<OgnOrder> specification = Specification.where(null);
 
-            if (Objects.nonNull(search)) {
+            if (Objects.nonNull(search) && !search.isEmpty()) {
                 specification = specification
-                        .or((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("status"), "%" + search + "%"))
-                        .or((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("userid").get("userid"), "%" + search + "%"));
-
+                        .or((root, query, criteriaBuilder) ->
+                                criteriaBuilder.like(root.get("status"), "%" + search + "%"))
+                        .or((root, query, criteriaBuilder) ->
+                                criteriaBuilder.like(root.get("userid").get("userid"), "%" + search + "%"));
 
                 // Thêm điều kiện tìm kiếm theo id
                 try {
-                    Long id = Long.parseLong(search);  // Chuyển search thành Long
+                    Long id = Long.parseLong(search); // Chuyển search thành Long
                     specification = specification
-                            .or( (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), id));
+                            .or((root, query, criteriaBuilder) ->
+                                    criteriaBuilder.equal(root.get("id"), id));
                 } catch (NumberFormatException e) {
                     // Nếu không thể chuyển đổi search thành Long, thì bỏ qua phần này
                     System.out.println("search không phải kiểu Long, bỏ qua tìm kiếm theo id");
                 }
             }
 
-            Page<OgnOrder> page = orderReponsitory.findAll(specification,pageable);
+            // Thực hiện tìm kiếm và phân trang
+            Page<OgnOrder> page = orderReponsitory.findAll(specification, pageable);
             return page != null ? page : Page.empty(pageable); // Trả về Page trống nếu không có dữ liệu
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return Page.empty(); // Trả về Page trống nếu có lỗi
     }
+
 
     @Override
     public List<OgnOrder> findAll() {
@@ -69,6 +75,11 @@ public class OrderSerivceImpl implements OrderService {
     public OgnOrder findById(long id) throws UsernameNotFoundException {
         Optional<OgnOrder> optionalOgnOrder = orderReponsitory.findFirstById(id);
         return optionalOgnOrder.orElse(null);
+    }
+
+    @Override
+    public List SumYear() {
+        return List.of();
     }
 
 

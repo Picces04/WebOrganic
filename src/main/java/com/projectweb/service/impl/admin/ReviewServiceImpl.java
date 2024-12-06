@@ -115,6 +115,11 @@ public class ReviewServiceImpl implements ReviewService {
         return averageRatings;
     }
 
+    @Override
+    public Integer Totalreview() {
+        List<OgnStarrating> total = reviewReponsitory.findAll();
+        return total.size();
+    }
 
 
     @Override

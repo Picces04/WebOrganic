@@ -45,13 +45,13 @@
 				<div class="page-content">
 					<!--breadcrumb-->
 					<div class="page-breadcrumb d-none d-md-flex align-items-center mb-3">
-						<div class="breadcrumb-title pe-3">Tables</div>
+						<div class="breadcrumb-title pe-3">Quản lí</div>
 						<div class="ps-3">
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb mb-0 p-0">
 									<li class="breadcrumb-item"><a href="javascript:;"><i class='bx bx-credit-card-alt' style='color:#ff8221'  ></i></a>
 									</li>
-									<li class="breadcrumb-item active" aria-current="page">OrderDetails</li>
+									<li class="breadcrumb-item active" aria-current="page">Hóa Đơn</li>
 								</ol>
 							</nav>
 						</div>
@@ -65,7 +65,7 @@
 							<!-- Đầu card với nút thu gọn -->
 							<div class="row">
 								<div class="col-md-6">
-									<h5>Bảng OrderDetail</h5>
+									<h5>Bảng Hóa Đơn</h5>
 								</div>
 								<form th:action="@{/admin/layout/AdBill}" class="col-md-6" method="get" >
 									<div class="input-group">
@@ -116,7 +116,7 @@
 											<td th:text="${u.name}"></td>
 											<td th:text="${u.streetaddress + ' - ' + u.ward + ' - ' + u.district + ' - ' + u.city}"></td>
 											<td th:text="${u.phone}">
-											<td th:text="${u.totalprice }+ ' đ'">
+											<td th:text="${@numberFormatter.format(u.totalprice) }+ ' đ'">
 											<td th:text="${u.paymentMethod}">
 											</td>
 											<td>

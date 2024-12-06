@@ -85,6 +85,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Integer Totalproduct() {
+        List<OgnProduct> products = productReponsitory.findAll();
+        return products.size();
+    }
+
+    @Override
     public OgnProduct insertProduct(OgnProduct product) {
         try {
             product.setId(product.getId());

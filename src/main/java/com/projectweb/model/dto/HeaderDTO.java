@@ -21,4 +21,9 @@ public class HeaderDTO {
     public void setSumPrice(BigDecimal sumPrice) {
         this.sumPrice = sumPrice;
     }
+
+    public void clear() {
+        this.totalProduct = 0;   // Đặt lại totalProduct về 0
+        this.sumPrice = BigDecimal.valueOf(0);    // Đặt lại sumPrice về null
+    }
 }

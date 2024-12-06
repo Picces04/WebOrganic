@@ -198,8 +198,8 @@
                                                 <tr class="order-total">
                                                     <th>Thành tiền</th>
                                                     <td><strong>
-                                                        <input type="hidden" name="totalprice" th:if="${headerDTO.sumPrice < 300000}" th:value="${@numberFormatter.format(headerDTO.sumPrice + 15000)}" class="amount"></input>
-                                                        <input type="hidden" name="totalprice" th:if="${headerDTO.sumPrice >= 300000}" th:value="${@numberFormatter.format(headerDTO.sumPrice)}" class="amount"></input>
+                                                        <input type="hidden" name="totalprice" th:if="${headerDTO.sumPrice < 300000}" th:value="${headerDTO.sumPrice + 15000}" class="amount"></input>
+                                                        <input type="hidden" name="totalprice" th:if="${headerDTO.sumPrice >= 300000}" th:value="${headerDTO.sumPrice}" class="amount"></input>
                                                         <span th:if="${headerDTO.sumPrice < 300000}" th:text="${@numberFormatter.format(headerDTO.sumPrice + 15000)}" class="amount"></span>
                                                         <span th:if="${headerDTO.sumPrice >= 300000}" th:text="${@numberFormatter.format(headerDTO.sumPrice)}" class="amount"></span>
                                                         <span>đ</span>

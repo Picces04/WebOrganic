@@ -11,6 +11,7 @@ public interface ProductService {
     List<OgnProduct> findAll();
 
     OgnProduct findOne(Long id);
+    Integer Totalproduct();
     //CRUD Admin
     OgnProduct insertProduct(OgnProduct product);
     OgnProduct updateProduct(OgnProduct product);

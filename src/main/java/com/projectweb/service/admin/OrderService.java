@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface OrderService {
@@ -14,6 +15,8 @@ public interface OrderService {
     List<OgnOrder> findAll();
 
     OgnOrder findById(long id) throws UsernameNotFoundException;
+
+    List SumYear();
 
     OgnOrder insertOrder(OgnOrder order);
 

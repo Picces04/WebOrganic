@@ -51,7 +51,7 @@ public class OgnBillingDetail {
     private OgnUser userid;
 
     @Column(name = "TOTALPRICE")
-    private Long totalprice;
+    private Float totalprice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.RESTRICT)

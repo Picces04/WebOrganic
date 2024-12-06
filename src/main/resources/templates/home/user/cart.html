@@ -118,7 +118,7 @@
                                                    min="1">
                                         </td>
                                         <td class="product-subtotal">
-                                            <input  style="border: none; background-color: transparent ; width: 65px; color: #F45A30 "
+                                            <input  style="border: none; background-color: transparent ; width: 75px; color: #F45A30 "
                                                     class="sumValue" th:id="'sumValue-' + ${u.id}" disabled>
                                             <span style="color:#F45A30 ">₫</span>
                                         </td>
@@ -147,8 +147,6 @@
                                 <div class="col-md-4 ml-auto">
                                     <div class="cart-page-total">
                                         <h2>Thành tiền: <span style="color:#F45A30 " id="total">0</span> <span style="color:#F45A30 ">₫</span> </h2>
-
-
                                         <a href="/home/user/checkout" class="proceed-checkout-btn">Thanh toán</a>
                                     </div>
                                 </div>
@@ -200,19 +198,24 @@
     <!-- Main JS -->
     <script src="/assets/js/main.js"></script>
     <script>
-        function  totalPrice(){
+        function totalPrice() {
             let total = 0;
-            document.querySelectorAll(".sumValue").forEach(price=>{
-                total += parseFloat(price.value);
-            })
-            document.querySelector("#total").innerHTML = total ;
+
+            // Tính tổng giá trị
+            document.querySelectorAll(".sumValue").forEach(price => {
+                total += parseFloat(price.value) || 0; // Xử lý giá trị không hợp lệ
+            });
+
+            // Định dạng tổng giá trị và hiển thị
+            document.querySelector("#total").innerHTML = total.toLocaleString('en-US'); // Định dạng ###,###
         }
+
 
         function calculateSubtotal(rowPrice, rowQuantity, rowSum) {
             const price = parseFloat(rowPrice); // Lấy giá sản phẩm (nếu không hợp lệ thì mặc định là 0)
             const quantity = parseInt(rowQuantity); // Lấy số lượng sản phẩm (nếu không hợp lệ thì mặc định là 0)
             const subtotal = price * quantity; // Tính tổng giá
-            rowSum.value = subtotal; // Hiển thị tổng giá dạng số Việt Nam
+            rowSum.value = subtotal * 1000; // Hiển thị tổng giá dạng số Việt Nam
         }
 
         document.querySelectorAll(".quantity-input").forEach(input => {

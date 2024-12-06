@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Service
@@ -53,6 +54,12 @@ public class BlogServiceImpl implements BlogService {
             ex.printStackTrace();
         }
         return Page.empty(); // Trả về Page trống nếu có lỗi
+    }
+
+    @Override
+    public Integer TotalBlogs() {
+        List<OgnBlog> blogs = blogReponsitory.findAll();
+        return blogs.size();
     }
 
     @Override

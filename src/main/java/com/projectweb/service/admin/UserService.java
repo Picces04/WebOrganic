@@ -12,6 +12,9 @@ public interface UserService extends UserDetailsService {
     OgnUser findById(String userid) throws UsernameNotFoundException;
     Page<OgnUser> findAll(String search ,int pageNumber);
     List<OgnUser> findAll();
+
+    Integer TotalUsers();
+
     //CRUD User
     OgnUser insertUser(OgnUser user);
     OgnUser updateUser(OgnUser user);

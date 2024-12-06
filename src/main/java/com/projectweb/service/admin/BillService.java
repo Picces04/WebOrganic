@@ -2,6 +2,7 @@ package com.projectweb.service.admin;
 
 import com.projectweb.model.OgnBillingDetail;
 import com.projectweb.model.OgnOrder;
+import com.projectweb.model.dto.RevenueDto;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -22,4 +23,6 @@ public interface BillService {
     OgnBillingDetail updateBill(OgnBillingDetail order);
 
     boolean deleteBill(long id);
+
+    List<RevenueDto> getMonthlyRevenue();
 }

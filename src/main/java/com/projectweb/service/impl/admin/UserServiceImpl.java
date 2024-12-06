@@ -63,6 +63,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Integer TotalUsers() {
+        List<OgnUser> total = userReponsitory.findAll();
+        return total.size();
+    }
+
+    @Override
     public OgnUser findByEmail(String email) throws UsernameNotFoundException {
         try {
             return userReponsitory.findFirstByEmail(email);

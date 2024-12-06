@@ -79,24 +79,24 @@ public class CheckoutController {
         OgnUser userPick = (OgnUser) session.getAttribute("userPick");
         String email = userPick.getEmail();
         List<CartDTO> cartList1 = (List<CartDTO>) session.getAttribute("cartList");
+
         try {
             // Lưu chi tiết order
+            //Lưu order
+            OgnOrder order = new OgnOrder();
+            order.setOrderdate(Instant.now());
+            order.setStatus("Đang xử lý");
+            order.setUserid(billingDetail.getUserid());
+            // Lưu order và lấy đối tượng đã lưu (có id)
+            order = orderService.insertOrder(order);
+            //Lưu bill
+            billingDetail.setOrderid(order);
+            billService.insertBill(billingDetail); // Gọi hàm insert từ AdminService
+
             for(CartDTO cartDTO : cartList1 ) {
                 Long stock = cartDTO.getQuantity();
                 OgnProduct productPick = productService.findOne(cartDTO.getId());
                 if (productPick.getStock() - stock >= 0) {
-
-                    //Lưu order
-                    OgnOrder order = new OgnOrder();
-                    order.setOrderdate(Instant.now());
-                    order.setStatus("Đang xử lý");
-                    order.setUserid(billingDetail.getUserid());
-                    // Lưu order và lấy đối tượng đã lưu (có id)
-                    order = orderService.insertOrder(order);
-
-                    //Lưu bill
-                    billingDetail.setOrderid(order);
-                    billService.insertBill(billingDetail); // Gọi hàm insert từ AdminService
 
                     productPick.setStock(productPick.getStock() - stock);
                     productService.updateProduct(productPick);
@@ -127,6 +127,10 @@ public class CheckoutController {
             if (cartList1 != null) {
                 cartList1.clear(); // Xóa tất cả sản phẩm khỏi giỏ hàng
                 session.setAttribute("cartList1", cartList1); // Cập nhật lại session
+                HeaderDTO headerDTO = (HeaderDTO) session.getAttribute("headerDTO");
+                headerDTO.clear();
+                session.setAttribute("headerDTO", headerDTO);
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();

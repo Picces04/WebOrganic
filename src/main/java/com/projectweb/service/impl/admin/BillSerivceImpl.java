@@ -2,6 +2,7 @@ package com.projectweb.service.impl.admin;
 
 import com.projectweb.model.OgnBillingDetail;
 import com.projectweb.model.OgnOrder;
+import com.projectweb.model.dto.RevenueDto;
 import com.projectweb.reponsitory.admin.BillReponsitory;
 import com.projectweb.service.admin.BillService;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -155,6 +157,20 @@ public class BillSerivceImpl implements BillService {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<RevenueDto> getMonthlyRevenue() {
+        List<Object[]> results = billReponsitory.findMonthlyRevenue();
+
+        // Chuyển đổi kết quả từ Object[] sang DTO
+        return results.stream()
+                .map(result -> new RevenueDto(
+                        ((Number) result[0]).intValue(), // Month
+                        ((Number) result[1]).intValue(), // Year
+                        ((Number) result[2]).longValue()  // TotalRevenue
+                ))
+                .collect(Collectors.toList());
     }
 
 
