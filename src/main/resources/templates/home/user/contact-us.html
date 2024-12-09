@@ -1,0 +1,213 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+
+<!-- Mirrored from htmldemo.net/origine/origine/contact-us by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:46 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Origine - Về chúng tôi</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico">
+
+    <!-- CSS
+	============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/bootstrap.min.css">
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/vendor/plaza-font.css">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/css/plugins/slick.css">
+    <link rel="stylesheet" href="/assets/css/plugins/swiper.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/animation.css">
+    <link rel="stylesheet" href="/assets/css/plugins/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/plugins/fancy-box.css">
+    <link rel="stylesheet" href="/assets/css/plugins/jqueryui.min.css">
+
+    <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from avobe) -->
+    <!--
+    <script src="/assets/js/vendor/vendor.min.js"></script>
+    <script src="/assets/js/plugins/plugins.min.js"></script>
+    -->
+
+    <!-- Main Style CSS (Please use minify version for better website load performance) -->
+    <link rel="stylesheet" href="/assets/css/style/style.css">
+    <!--<link rel="stylesheet" href="/assets/css/style.min.css">-->
+
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <!--    Header-->
+        <th:block th:replace="~{home/layout/header :: header(header=${headerDTO},cartList=${cartList1},wishlist=${totalWish}, auth=${UserGitSS})}"></th:block>
+        <!--    Header-->
+
+        <!-- breadcrumb-area start -->
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- breadcrumb-list start -->
+                        <ul class="breadcrumb-list">
+                            <li class="breadcrumb-item"><a href="/home/user/index">Home</a></li>
+                            <li class="breadcrumb-item active">Liên hệ với chúng tôi</li>
+                        </ul>
+                        <!-- breadcrumb-list end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumb-area end -->
+
+
+        <!-- main-content-wrap start -->
+        <div class="main-content-wrap contact-wrap">
+
+
+            <div class="contact-form-area section-ptb">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="contact-info-wrap">
+                                <div class="contact-title mb-30">
+                                    <h3>Liên hệ với chúng tôi</h3>
+                                </div>
+
+                                <div class="contact-info-text">
+                                    <ul>
+                                        <li>
+                                            <div class="contact-title">
+                                                <i class="fa fa-home"></i>
+                                                <h4>Địa chỉ</h4>
+                                            </div>
+                                            <p>123 Main Street, Anytown, CA 12345 – USA</p>
+                                        </li>
+                                        <li>
+                                            <div class="contact-title">
+                                                <i class="fa fa-envelope-open-o"></i>
+                                                <h4>Điện thoại</h4>
+                                            </div>
+                                            <p>Di động: (08) 123 456 789<br>
+                                                Đường dây nóng: 1009 678 456</p>
+                                        </li>
+                                        <li>
+                                            <div class="contact-title">
+                                                <i class="fa fa-phone"></i>
+                                                <h4>Email</h4>
+                                            </div>
+                                            <p>yourmail@domain.com<br>
+                                        support@roadthemes.com</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 offset-lg-1">
+                            <div class="contact-info-wrap">
+                                <div class="contact-title mb-30">
+                                    <h3>Hãy cho chúng tôi biết tin nhắn của bạn</h3>
+                                </div>
+
+                                <div class="contact-us-from-wrap">
+                                    <form id="contact-form" class="contact-us-box" method="post" action="/send-feedback">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="single-input">
+                                                    <label>Tên của bạn (bắt buộc)</label>
+                                                    <input name="con_name" type="text" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="single-input">
+                                                    <label>Email của bạn (bắt buộc)</label>
+                                                    <input name="con_email" type="email" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="single-input">
+                                                    <label>Tiêu đề</label>
+                                                    <input name="con_subject" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="single-input">
+                                                    <label>Tin nhắn của bạn</label>
+                                                    <textarea name="con_message" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="single-input">
+                                                    <button class="submit-button submit-btn" type="submit">Gửi</button>
+                                                    <p class="form-messege"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- main-content-wrap end -->
+
+
+
+
+
+        <!-- Footer -->
+        <th:block th:replace="home/layout/footer :: footer"></th:block>
+        <!-- Footer -->
+
+
+
+    </div>
+
+    <!-- JS
+============================================ -->
+
+    <!-- Modernizer JS -->
+    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="/assets/js/vendor/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="/assets/js/vendor/popper.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap.min.js"></script>
+
+    <!-- Plugins JS -->
+    <script src="/assets/js/plugins/slick.min.js"></script>
+    <script src="/assets/js/plugins/swiper.min.js"></script>
+    <script src="/assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/plugins/countdown.min.js"></script>
+    <script src="/assets/js/plugins/image-zoom.min.js"></script>
+    <script src="/assets/js/plugins/fancybox.js"></script>
+    <script src="/assets/js/plugins/scrollup.min.js"></script>
+    <script src="/assets/js/plugins/jqueryui.min.js"></script>
+    <script src="/assets/js/plugins/ajax-contact.js"></script>
+
+    <!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
+    <!--
+<script src="/assets/js/vendor/vendor.min.js"></script>
+<script src="/assets/js/plugins/plugins.min.js"></script>
+-->
+
+    <!-- Main JS -->
+    <script src="/assets/js/main.js"></script>
+
+</body>
+
+
+<!-- Mirrored from htmldemo.net/origine/origine/contact-us by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:46 GMT -->
+</html>

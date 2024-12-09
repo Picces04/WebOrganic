@@ -1,0 +1,326 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- Mirrored from htmldemo.net/origine/origine/cart by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:28 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Origine - Giỏ hàng</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico">
+
+    <!-- CSS
+	============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/bootstrap.min.css">
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/vendor/plaza-font.css">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/css/plugins/slick.css">
+    <link rel="stylesheet" href="/assets/css/plugins/swiper.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/animation.css">
+    <link rel="stylesheet" href="/assets/css/plugins/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/plugins/fancy-box.css">
+    <link rel="stylesheet" href="/assets/css/plugins/jqueryui.min.css">
+
+    <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from avobe) -->
+    <!--
+    <script src="/assets/js/vendor/vendor.min.js"></script>
+    <script src="/assets/js/plugins/plugins.min.js"></script>
+    -->
+
+    <!-- Main Style CSS (Please use minify version for better website load performance) -->
+    <link rel="stylesheet" href="/assets/css/style/style.css">
+    <!--<link rel="stylesheet" href="/assets/css/style.min.css">-->
+
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <!--    Header-->
+        <th:block th:replace="~{home/layout/header :: header(header=${headerDTO},cartList=${cartList1},wishlist=${totalWish}, auth=${UserGitSS})}"></th:block>
+        <!--    Header-->
+
+        <!-- breadcrumb-area start -->
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- breadcrumb-list start -->
+                        <ul class="breadcrumb-list">
+                            <li class="breadcrumb-item"><a href="/home/user/index">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Giỏ hàng</li>
+                        </ul>
+                        <!-- breadcrumb-list end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumb-area end -->
+
+
+        <!-- main-content-wrap start -->
+        <div class="main-content-wrap section-ptb cart-page">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="#" class="cart-table">
+                            <div class="table-content table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="plantmore-product-thumbnail">Ảnh</th>
+                                            <th class="cart-product-name">Tên sản phẩm</th>
+                                            <th class="plantmore-product-price">Giá</th>
+                                            <th class="plantmore-product-quantity">Số lượng</th>
+                                            <th class="plantmore-product-subtotal">Tổng</th>
+                                            <th class="plantmore-product-remove">Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="u : ${cartList1}" id="a">
+                                        <td class="plantmore-product-thumbnail">
+                                            <a href="#">
+                                                <img style="width: 150px" th:src="${u.image}" alt="">
+                                            </a>
+                                            <div style="text-wrap: nowrap; width:auto ">
+                                                <p style="display: inline-block">Còn lại: </p>
+                                                <p style="display: inline-block" th:text="${u.stock}"></p>
+                                            </div>
+                                        </td>
+                                        <td class="plantmore-product-name">
+                                            <a href="#" th:text="${u.productname}">Compete Track Tote</a>
+                                        </td>
+
+                                        <td class="plantmore-product-price">
+                                            <input style="border: none; background-color: transparent ; width: 65px; color: #F45A30 "
+                                                   th:id="'input1-' + ${u.id}"
+                                                   disabled class="amount"
+                                                   th:value="${@numberFormatter.format(u.price * u.salePrice)}">
+                                            <span style="color:#F45A30 ">₫</span>
+                                        </td>
+                                        <td class="plantmore-product-quantity">
+                                            <input th:id="'input2-' + ${u.id}"
+                                                   type="number"
+                                                   class="quantity-input"
+                                                   th:data-id="${u.id}"
+                                                   th:value="${u.quantity}"
+                                                   th:max="${u.stock}"
+                                                   min="1">
+                                        </td>
+                                        <td class="product-subtotal">
+                                            <input  style="border: none; background-color: transparent ; width: 75px; color: #F45A30 "
+                                                    class="sumValue" th:id="'sumValue-' + ${u.id}" disabled>
+                                            <span style="color:#F45A30 ">₫</span>
+                                        </td>
+
+                                        <td class="plantmore-product-remove">
+                                            <a href="#" class="remove-item" th:data-id="${u.id}">
+                                                <i class="icon-x"></i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="coupon-all">
+
+                                        <div class="coupon2">
+                                            <a href="#" id="remove-all-item" class="continue-btn">Xóa tất </a>
+                                            <a href="/home/user/shop" class=" continue-btn">Tiếp tục mua hàng</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 ml-auto">
+                                    <div class="cart-page-total">
+                                        <h2>Thành tiền: <span style="color:#F45A30 " id="total">0</span> <span style="color:#F45A30 ">₫</span> </h2>
+                                        <a href="/home/user/checkout" class="proceed-checkout-btn">Thanh toán</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main-content-wrap end -->
+
+
+
+        <!-- Footer -->
+        <th:block th:replace="home/layout/footer :: footer"></th:block>
+        <!-- Footer -->
+
+
+    </div>
+
+    <!-- JS
+============================================ -->
+
+    <!-- Modernizer JS -->
+    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="/assets/js/vendor/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="/assets/js/vendor/popper.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap.min.js"></script>
+
+    <!-- Plugins JS -->
+    <script src="/assets/js/plugins/slick.min.js"></script>
+    <script src="/assets/js/plugins/swiper.min.js"></script>
+    <script src="/assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/plugins/countdown.min.js"></script>
+    <script src="/assets/js/plugins/image-zoom.min.js"></script>
+    <script src="/assets/js/plugins/fancybox.js"></script>
+    <script src="/assets/js/plugins/scrollup.min.js"></script>
+    <script src="/assets/js/plugins/jqueryui.min.js"></script>
+    <script src="/assets/js/plugins/ajax-contact.js"></script>
+
+    <!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
+    <!--
+<script src="/assets/js/vendor/vendor.min.js"></script>
+<script src="/assets/js/plugins/plugins.min.js"></script>
+-->
+
+    <!-- Main JS -->
+    <script src="/assets/js/main.js"></script>
+    <script>
+        function totalPrice() {
+            let total = 0;
+
+            // Tính tổng giá trị
+            document.querySelectorAll(".sumValue").forEach(price => {
+                total += parseFloat(price.value) || 0; // Xử lý giá trị không hợp lệ
+            });
+
+            // Định dạng tổng giá trị và hiển thị
+            document.querySelector("#total").innerHTML = total.toLocaleString('en-US'); // Định dạng ###,###
+        }
+
+
+        function calculateSubtotal(rowPrice, rowQuantity, rowSum) {
+            const price = parseFloat(rowPrice); // Lấy giá sản phẩm (nếu không hợp lệ thì mặc định là 0)
+            const quantity = parseInt(rowQuantity); // Lấy số lượng sản phẩm (nếu không hợp lệ thì mặc định là 0)
+            const subtotal = price * quantity; // Tính tổng giá
+            rowSum.value = subtotal * 1000; // Hiển thị tổng giá dạng số Việt Nam
+        }
+
+        document.querySelectorAll(".quantity-input").forEach(input => {
+            const rowPrice = document.querySelector(`#input1-${input.getAttribute("data-id")}`).value; // Lấy giá sản phẩm
+            const rowQuantity = input.value; // Lấy số lượng sản phẩm
+            const rowSum = document.querySelector(`#sumValue-${input.getAttribute("data-id")}`); // Lấy tổng giá (subtotal)
+
+            input.addEventListener("change", () => {
+                const updatedQuantity = input.value; // Số lượng mới
+                const productId = input.getAttribute("data-id"); // ID sản phẩm
+                const rowPrice = document.querySelector(`#input1-${productId}`).value; // Giá sản phẩm
+                const rowSum = document.querySelector(`#sumValue-${productId}`); // Tổng giá (subtotal)
+
+                // Cập nhật subtotal và tổng giá
+                calculateSubtotal(rowPrice, updatedQuantity, rowSum);
+                totalPrice();
+
+                // Gửi dữ liệu qua AJAX
+                fetch('/home/user/update-cart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: productId,
+                        quantity: updatedQuantity
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log('Cập nhật session thành công!');
+                        } else {
+                            console.error('Cập nhật session thất bại:', data.message);
+                        }
+                    })
+                    .catch(error => console.error('Lỗi khi gửi AJAX:', error));
+            });
+
+            calculateSubtotal(rowPrice, rowQuantity, rowSum);
+            totalPrice();
+        });
+
+        // Xử lý xóa sản phẩm
+        document.querySelectorAll(".remove-item").forEach(button => {
+            button.addEventListener("click", (e) => {
+                e.preventDefault();
+                const productId = button.getAttribute("data-id");
+
+                // Gửi yêu cầu xóa sản phẩm qua AJAX
+                fetch('/home/user/remove-cart-item', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: productId })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log('Xóa sản phẩm thành công!');
+                            // Xóa hàng của sản phẩm khỏi bảng
+                            button.closest("tr").remove();
+                            totalPrice(); // Cập nhật tổng giá
+                        } else {
+                            console.error('Xóa sản phẩm thất bại:', data.message);
+                        }
+                    })
+                    .catch(error => console.error('Lỗi khi gửi AJAX:', error));
+            });
+        });
+        // Xử lý xóa tất cả sản phẩm
+        document.querySelector("#remove-all-item").addEventListener("click", (e) => {
+            e.preventDefault();
+
+            // Gửi yêu cầu xóa tất cả sản phẩm qua AJAX
+            fetch('/home/user/remove-all-cart-items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Xóa tất cả sản phẩm thành công!');
+                        // Xóa tất cả hàng khỏi bảng
+                        document.querySelectorAll("tr.cart-item").forEach(row => row.remove());
+                        totalPrice(); // Cập nhật tổng giá
+
+                        // Tải lại trang để đồng bộ session
+                        location.reload(); // Làm mới toàn bộ trang
+                    } else {
+                        console.error('Xóa tất cả sản phẩm thất bại:', data.message);
+                    }
+                })
+                .catch(error => console.error('Lỗi khi gửi AJAX:', error));
+        });
+
+    </script>
+
+
+</body>
+
+
+<!-- Mirrored from htmldemo.net/origine/origine/cart by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:29 GMT -->
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!--head-->
+<th:block th:replace="admin/sp/head :: head"></th:block>
+<!--head-->
+
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+
+		<!--sidebar-wrapper + header-->
+		<th:block th:replace="~{admin/sp/sidebarHeader :: headerContent}"></th:block>
+		<!--end sidebar-wrapper + header-->
+
+		<!--page-wrapper-->
+		<div class="page-wrapper">
+			<!--page-content-wrapper-->
+			<div class="page-content-wrapper">
+				<div class="page-content">
+					<div class="row">
+						<div class="col-12 col-lg-3">
+							<div class="card radius-15 overflow-hidden">
+								<div style="background-color: #0b5ed7; color: #fff" class="card-body">
+									<div class="d-flex">
+										<div >
+											<p class="mb-0 font-weight-bold">Tổng sản phẩm</p>
+											<h2 class="mb-0" th:text="${totalProduct}">501</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-lg-3">
+							<div class="card radius-15 overflow-hidden">
+								<div style="background-color: #0fa004; color: #fff" class="card-body">
+									<div class="d-flex">
+										<div>
+											<p class="mb-0 font-weight-bold">Tổng tin tức</p>
+											<h2 class="mb-0" th:text="${totalBlog}">409</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-lg-3">
+							<div class="card radius-15 overflow-hidden">
+								<div style="background-color: #F02769; color: #fff" class="card-body">
+									<div class="d-flex">
+										<div>
+											<p class="mb-0 font-weight-bold">Tổng đánh giá</p>
+											<h2 class="mb-0" th:text="${totalReview}">2,346</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-lg-3">
+							<div class="card radius-15 overflow-hidden">
+								<div style="background-color: #FFC107; color: #000" class="card-body">
+									<div class="d-flex">
+										<div>
+											<p class="mb-0 font-weight-bold">Tổng người dùng</p>
+											<h2 class="mb-0" th:text="${totalUser}">2,346</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--end row-->
+					<div class="row">
+						<div class="col-12 col-lg-8 d-flex">
+							<div class="card radius-15 w-100">
+								<div class="card-body">
+									<div class="container mt-5">
+										<h1 class="text-center">Biểu đồ Doanh thu Tháng</h1>
+										<canvas id="revenueChart" width="400" height="200"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<script>
+						// Gọi API để lấy dữ liệu doanh thu
+						fetch('/api/revenue/monthly')
+								.then(response => response.json())
+								.then(data => {
+									// Xử lý dữ liệu từ API
+									const labels = data.map(item => item.month); // Lấy các tháng
+									const revenues = data.map(item => item.totalRevenue); // Lấy doanh thu
+
+									// Tìm giá trị lớn nhất và làm tròn lên bội số của 500,000
+									const maxRevenue = Math.max(...revenues);
+									const roundedMax = Math.ceil(maxRevenue / 500000) * 500000;
+
+									// Tính khoảng cách giữa các mốc
+									const stepSize = roundedMax / 5;
+
+									// Cấu hình biểu đồ
+									const ctx = document.getElementById('revenueChart').getContext('2d');
+									const revenueChart = new Chart(ctx, {
+										type: 'bar',
+										data: {
+											labels: labels,
+											datasets: [{
+												label: 'Doanh thu (vnđ	)',
+												data: revenues,
+												backgroundColor: 'rgba(54, 162, 235, 0.5)',
+												borderColor: 'rgba(54, 162, 235, 1)',
+												borderWidth: 1
+											}]
+										},
+										options: {
+											responsive: true,
+											scales: {
+												y: {
+													beginAtZero: true,
+													ticks: {
+														stepSize: stepSize, // Đặt khoảng cách giữa các mốc
+														callback: function(value) {
+															return value.toLocaleString(); // Hiển thị số có dấu phẩy
+														}
+													},
+													max: roundedMax // Đặt giá trị tối đa
+												}
+											}
+										}
+									});
+								})
+								.catch(error => console.error('Lỗi khi lấy dữ liệu:', error));
+					</script>
+
+				</div>
+			</div>
+			<!--end page-content-wrapper-->
+		</div>
+		<!--end page-wrapper-->
+
+		<!--start overlay-->
+		<div class="overlay toggle-btn-mobile"></div>
+		<!--end overlay-->
+
+		<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+		<!--End Back To Top Button-->
+
+		<!--footer -->
+		<div class="footer">
+			<p class="mb-0">Syndash @2020 | Developed By : <a href="https://themeforest.net/user/codervent" target="_blank">Nguyễn Phú Hải</a>
+			</p>
+		</div>
+		<!-- end footer -->
+	</div>
+	<!-- end wrapper -->
+
+	<!-- JavaScript -->
+
+	<!-- Bootstrap JS -->
+	<th:block th:replace="admin/sp/bootstrapJS :: script"></th:block>
+
+
+	<!-- Bootstrap JS -->
+</body>
+
+
+<!-- Mirrored from codervent.com/syndash/demo/vertical/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Oct 2024 10:32:28 GMT -->
+</html>
+
+

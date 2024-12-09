@@ -1,0 +1,592 @@
+<!doctype html>
+<meta charset="UTF-8">
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- header -->
+<th:block th:replace="~{home/layout/head :: head}"></th:block>
+<!-- End header -->
+<body>
+<div class="main-wrapper">
+    <!--    Header-->
+    <th:block th:replace="~{home/layout/header :: header(header=${headerDTO},cartList=${cartList1},wishlist=${totalWish}, auth=${UserGitSS})}"></th:block>
+    <!--    Header-->
+
+    <!-- Hero Section Start -->
+    <div class="hero-slider-area">
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3">
+                    <div class="categories-menu-wrap mt-30">
+                        <div class="categories_menu">
+                            <div class="categories_title ">
+                                <h5 class="categori_toggle">Danh mục</h5>
+                            </div>
+                            <div class="categories_menu_toggle">
+                                <ul>
+                                    <li th:each="u : ${dataCategoryAll}" class="menu_item_children categorie_list">
+                                        <a th:href="@{/home/user/shop-category/{id}(id=${u.id})}" th:text="${u.categoryname}"> <i class="fa fa-angle-right"></i> </a>
+                                        <ul class="categories_mega_menu">
+                                            <li th:each="product, status : ${productsByCategory[u.id]}">
+                                                <th:block th:if="${status.index < 5}">
+                                                    <a th:href="@{/home/user/product-details(id=${product.id})}" th:text="${product.productname}">Product Name</a>
+                                                </th:block>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="hide-child"><a href="shop">Fruits</a></li>
+                                    <li class="categories-more-less ">
+                                        <a class="more-default"><span class="c-more"></span>+ More Categories</a>
+                                        <a class="less-show"><span class="c-more"></span>- Less Categories</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="hero-slider-wrapper mt-30">
+                        <!-- Hero Slider Start -->
+                        <div class="hero-slider-area hero-slider-one">
+                            <div class="swiper-container gallery-top">
+                                <div class="swiper-wrapper">
+                                    <div th:each="u : ${dataSlideTop}" class="swiper-slide" th:style="'background-image: url(' + ${u.imageurl} + ');'">
+                                        <div class="hero-content-one">
+                                            <div class="slider-content-text">
+                                                <h2>
+                                                    <span th:text="${#strings.arraySplit(u.descr, ' ')[0]+ ' ' + #strings.arraySplit(u.descr, ' ')[1]}">Double BBQ</span> <br>
+                                                    <span th:text="${#strings.substringAfter(u.descr, #strings.arraySplit(u.descr, ' ')[1])}">Bacon Cheese 2019</span>
+                                                </h2>
+                                                <p>Ưu đãi độc quyền -Giảm 20% trong tuần này</p>
+                                                <div class="slider-btn">
+                                                    <a href="#">Mua ngay</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- Add Arrows -->
+                                <!--<div class="swiper-button-next swiper-button-white"></div>
+                        <div class="swiper-button-prev swiper-button-white"></div>-->
+
+                                <div class="swiper-pagination"></div>
+                            </div>
+                            <div class="swiper-container gallery-thumbs">
+                                <div class="swiper-wrapper">
+                                    <div th:each="u : ${dataSlideTop}" class="swiper-slide">
+                                        <div class="slider-thum-text"><span th:text="${u.descr}"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hero Slider End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- Hero Section End -->
+
+
+    <!-- Categories Item Warap Start -->
+    <div class="categories-item-warap section-pt-30 section-pb">
+        <div class="container">
+            <div class="row">
+                <div th:each="u : ${dataCategory}" class="col-lg-2 col-md-4 col-sm-4 col-6">
+                    <!-- single-categories-item Start -->
+                    <div class="single-categories-item mt-30">
+                        <div class="cat-item-image">
+                            <a th:href="@{/home/user/shop-category/{id}(id=${u.id})}"><img th:src="${u.categoryimages}" alt=""></a>
+                        </div>
+                        <div class="categories-title">
+                            <h6><a href="#" th:text="${u.categoryname}"></a></h6>
+                            <p th:text="${productCountByCategory[u.id] + ' sản phẩm'}"> 07 products</p>
+                        </div>
+                    </div>
+                    <!-- single-categories-item End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Categories Item Warap End -->
+
+    <!-- Banner Area Start -->
+    <div class="banner-area">
+        <div class="container">
+            <div class="row">
+                <div th:each="u : ${dataSlideMid}" class="col-lg-6 col-md-6">
+                    <div class="single-banner mb-30">
+                        <a href="#"><img th:src="${u.imageurl}" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Banner Area End -->
+
+    <!-- Product Area Start -->
+    <div class="product-area section-pt-30">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <!-- Section Title Start -->
+                    <div class="section-title">
+                        <h3>Sản phẩm đang giảm giá</h3>
+                    </div>
+                    <!-- Section Title End -->
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <!-- Section Title Start -->
+                    <div class="view-all-product text-end">
+                        <a href="/home/user/shop">Xem tất cả sản phẩm <i class="icon-chevrons-right"></i></a>
+                    </div>
+                    <!-- Section Title End -->
+                </div>
+            </div>
+
+            <div class="row row-8 product-two-row-4">
+
+                <div class="product-col" th:each="u : ${dataSale}">
+                    <form th:action="@{/home/user/addtocart}" method="get">
+                        <input type="hidden" name="id" th:value="${u.productid.id}">
+                        <div class="single-product-wrap mt-10">
+                            <div class="product-image">
+                                <a th:href="@{/home/user/product-details(id=${u.productid.id})}">
+                                    <img th:src="${u.productid.image}" alt="Sản phẩm">
+                                </a>
+                                <span class="onsale">Sale!</span>
+                            </div>
+                            <div class="product-button">
+                                <a th:href="@{/home/user/addtowishlist(id=${u.productid.id})}" class="add-to-wishlist">
+                                    <i th:if="${#lists.contains(wishlistIds, u.productid.id)}" class="icon-heart"  style='color:#fd7206' ></i>
+                                    <i th:unless="${#lists.contains(wishlistIds, u.productid.id)}" class="icon-heart"></i>
+                                </a>
+                            </div>
+                            <div class="product-content">
+                                <div class="price-box">
+                                    <span class="new-price" th:text="${@numberFormatter.format(u.productid.price * u.salepercentage)}">Giá sau sale</span><span style="font-size: smaller;">đ</span>
+                                    <span class="old-price" th:text="${@numberFormatter.format(u.productid.price)}">Giá</span><span style="font-size: smaller;" class="old-price">đ</span>
+                                </div>
+                                <h6 class="product-name">
+                                    <a th:href="@{/home/user/product-details(id=${u.productid.id})}" th:text="${u.productid.productname}">Tên sản phẩm</a>
+                                </h6>
+                                <div class="product-button-action">
+                                    <button th:if="${u.productid.stock > 0}"
+                                            style="border: none; background-color: transparent"
+                                            type="submit"
+                                            class="product-button-action">
+                                        <a class="add-to-cart">
+                                            Thêm vào giỏ hàng
+                                        </a>
+                                    </button>
+                                    <span th:if="${u.productid.stock == 0}" style="color: red; font-weight: bold;">
+                                             Hết hàng
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <!-- Product Area Start -->
+
+    <!-- Deals Off Area Start -->
+    <div class="deals-offer-area section-pt-100 section-pb-40 dealis-offer-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-md-4">
+                    <div class="deals-offer-title mb-20">
+                        <h2>Cơ hội cuối cùng</h2>
+                        <p>Còn 1 ngày duy nhất trước khi hết giảm giá.</p>
+                    </div>
+                </div>
+                <div class="col-xl-10 col-lg-9 col-md-8">
+                    <div class="row row-8 product-active-lg-4">
+                        <div th:each="u : ${dataSaleTomorrow}" class="product-col">
+                            <!-- Single Product Start -->
+                            <form th:action="@{/home/user/addtocart}" method="get">
+                                <input type="hidden" name="id" th:value="${u.productid.id}">
+                                <div class="single-product-wrap mt-30">
+                                <div class="product-image">
+                                    <a th:href="@{/home/user/product-details(id=${u.productid.id})}">
+                                        <img th:src="${u.productid.image}" alt="">
+                                    </a>
+                                    <span class="onsale">Sale!</span>
+
+                                    <!-- countdown start -->
+                                    <div class="countdown-deals" th:data-countdown="${u.enddate}"></div>
+                                    <!-- countdown end -->
+                                </div>
+                                <div class="product-button">
+                                    <a th:href="@{/home/user/addtowishlist(id=${u.productid.id})}" class="add-to-wishlist">
+                                        <i th:if="${#lists.contains(wishlistIds, u.productid.id)}" class="icon-heart"  style='color:#fd7206' ></i>
+                                        <i th:unless="${#lists.contains(wishlistIds, u.productid.id)}" class="icon-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-content">
+                                    <div class="price-box">
+                                        <span class="new-price" th:text="${@numberFormatter.format(u.productid.price * u.salepercentage)} + 'đ'"></span>
+                                        <span class="old-price" th:text="${@numberFormatter.format(u.productid.price)} + 'đ'"></span>
+                                    </div>
+                                    <h6 class="product-name"><a href="product-details" th:text="${u.productid.productname} "></a></h6>
+                                    <div class="product-rating">
+                                        <ul>
+                                            <li><a href="#"><i class="icon-star"></i></a></li>
+                                            <li><a href="#"><i class="icon-star"></i></a></li>
+                                            <li><a href="#"><i class="icon-star"></i></a></li>
+                                            <li><a href="#"><i class="icon-star"></i></a></li>
+                                            <li class="bad-reting"><a href="#"><i class="icon-star"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="product-button-action">
+                                        <button th:if="${u.productid.stock > 0}"
+                                                style="border: none; background-color: transparent"
+                                                type="submit"
+                                                class="product-button-action">
+                                            <a class="add-to-cart">
+                                                Thêm vào giỏ hàng
+                                            </a>
+                                        </button>
+                                        <span th:if="${u.productid.stock == 0}" style="color: red; font-weight: bold;">
+                                             Hết hàng
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                            <!-- Single Product End -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Deals Off Area End -->
+
+    <!-- Product Area Start -->
+    <div class="product-area section-pt">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <!-- Section Title Start -->
+                    <div class="section-title">
+                        <h3>Giảm giá theo mặt hàng</h3>
+                    </div>
+                    <!-- Section Title End -->
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="tabs-categorys-list">
+                        <ul class="nav menu-tabs" role="tablist">
+                            <li th:each="u, iterStat : ${dataCategory3}" th:classappend="${iterStat.index == 0} ? 'active' : ''">
+                                <a th:classappend="${iterStat.index == 0} ? 'active' : ''" th:href="'#category-' + ${u.id}" role="tab" data-bs-toggle="tab"
+                                   th:text="${u.categoryname}">
+                                    <!-- Tên danh mục sẽ hiển thị ở đây -->
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="product-wrapper-four">
+                <div class="tab-content">
+                    <div th:each="u, iterStat : ${dataCategory3}" th:id="'category-' + ${u.id}" th:classappend="${iterStat.index == 0} ? 'tab-pane fade show active' : 'tab-pane fade'" >
+                        <div class="row row-8 product-row-6-active">
+                            <div th:each="u : ${productDTOsale[u.id]}" th:if="${u.salePrice != 1}" class="product-col">
+                                <!-- Single Product Start -->
+                                <form th:action="@{/home/user/addtocart}" method="get">
+                                    <input type="hidden" name="id" th:value="${u.id}">
+                                <div class="single-product-wrap mt-10">
+                                    <div class="product-image">
+                                        <a th:href="@{/home/user/product-details(id=${u.id})}">
+                                            <img th:src="${u.image}" alt="">
+                                        </a>
+                                        <span class="onsale">Sale!</span>
+                                    </div>
+                                    <div class="product-button">
+                                        <a th:href="@{/home/user/addtowishlist(id=${u.id})}" class="add-to-wishlist">
+                                            <i th:if="${#lists.contains(wishlistIds, u.id)}" class="icon-heart"  style='color:#fd7206' ></i>
+                                            <i th:unless="${#lists.contains(wishlistIds, u.id)}" class="icon-heart"></i>
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="price-box">
+                                            <span class="new-price" th:text="${@numberFormatter.format(u.price * u.salePrice)}"></span><span style="font-size: smaller;">đ</span>
+                                            <span class="old-price" th:text="${@numberFormatter.format(u.price)}"></span><span class="old-price" style="font-size: smaller;">đ</span>
+                                        </div>
+                                        <h6 class="product-name">
+                                            <a th:href="@{/home/user/product-details(id=${u.id})}" th:text="${u.productname}">Aliquam lobortis</a>
+                                        </h6>
+
+
+                                        <div class="product-button-action">
+                                            <button th:if="${u.stock > 0}"
+                                                    style="border: none; background-color: transparent"
+                                                    type="submit"
+                                                    class="product-button-action">
+                                                <a class="add-to-cart">
+                                                    Thêm vào giỏ hàng
+                                                </a>
+                                            </button>
+                                            <span th:if="${u.stock == 0}" style="color: red; font-weight: bold;">
+                                             Hết hàng
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- Single Product End -->
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Product Area Start -->
+
+    <!-- Banner Area Start -->
+    <div class="banner-area section-pb-30">
+        <div class="container">
+            <div class="row">
+                <div th:each="u : ${dataSlideBottom}" class="col-lg-6 col-md-6">
+                    <div class="single-banner mb-30">
+                        <a href="#"><img th:src="${u.imageurl}" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Banner Area End -->
+
+    <!-- Testimonials Area Start -->
+    <div class="testimonials-area section-pt-100 section-pb-100 testimonial-bg">
+        <div class="container">
+            <div class="row testimonial-slider">
+                <div th:each="u: ${dataReview}" class="col">
+                    <div class="testimonial-wrap">
+                        <div class="quote-container">
+                            <div class="quote-image">
+                                <img th:src="${u.productid.image}" alt="">
+                            </div>
+                            <div class="author">
+                                <ul>
+                                    <li th:text="${u.userid.username}" class="name"></li>
+                                    <li class="title">Khách hàng</li>
+                                </ul>
+                            </div>
+                            <div class="testimonials-text">
+                                <p th:text="${u.review}" class="limited-text" style="text-align: justify;">=</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Testimonials Area End -->
+
+    <!-- Product Area Start -->
+    <div class="product-area section-pt">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Section Title Start -->
+                    <div class="section-title">
+                        <h3>Sản phẩm xem gần đây</h3>
+                    </div>
+                    <!-- Section Title End -->
+                </div>
+            </div>
+
+            <div class="product-wrapper-four">
+                <div class="row row-8 product-row-6-active">
+                        <div th:each="u : ${recentlyViewed}"  class="product-col">
+                            <!-- Single Product Start -->
+                            <form th:action="@{/home/user/addtocart}" method="get">
+                                <input type="hidden" name="id" th:value="${u.id}">
+                            <div class="single-product-wrap mt-10">
+                                <div class="product-image">
+                                    <a th:href="@{/home/user/product-details(id=${u.id})}">
+                                        <img th:src="${u.image}" alt="">
+                                    </a>
+                                    <!-- Hiển thị Sale! nếu salePrice khác 1 -->
+                                    <span class="onsale" th:if="${u.salePrice != 1}">Sale!</span>
+                                </div>
+                                <div class="product-button">
+                                    <a th:href="@{/home/user/addtowishlist(id=${u.id})}" class="add-to-wishlist">
+                                        <i th:if="${#lists.contains(wishlistIds, u.id)}" class="icon-heart" style='color:#fd7206' ></i>
+                                        <i th:unless="${#lists.contains(wishlistIds, u.id)}" class="icon-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-content">
+                                    <div class="price-box">
+                                        <span class="new-price" th:text="${@numberFormatter.format(u.price * u.salePrice)}"></span><span style="font-size: smaller;">đ</span>
+                                        <!-- Hiển thị old-price nếu salePrice khác 1 -->
+                                        <span class="old-price" th:if="${u.salePrice != 1}" th:text="${@numberFormatter.format(u.price)}"></span><span class="old-price" style="font-size: smaller;" th:if="${u.salePrice != 1}">đ</span>
+                                    </div>
+                                    <h6 class="product-name">
+                                        <a th:href="@{/home/user/product-details(id=${u.id})}" th:text="${u.productname}">Aliquam lobortis</a>
+                                    </h6>
+                                    <div class="product-button-action">
+                                        <button th:if="${u.stock > 0}"
+                                                style="border: none; background-color: transparent"
+                                                type="submit"
+                                                class="product-button-action">
+                                            <a class="add-to-cart">
+                                                Thêm vào giỏ hàng
+                                            </a>
+                                        </button>
+                                        <span th:if="${u.stock == 0}" style="color: red; font-weight: bold;">
+                                                 Hết hàng
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Single Product End -->
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product Area Start -->
+
+    <div class="our-brand-area section-pt-100 section-pb-100 brand-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="our-brand-active">
+                        <div class="brand-group">
+                            <div class="brand-item">
+                                <a href="#"><img src="/assets/images/brand/brand-01.png" alt=""></a>
+                            </div>
+                            <div class="brand-item">
+                                <a href="#"><img src="/assets/images/brand/brand-03.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-item">
+                                <a href="#"><img src="/assets/images/brand/brand-02.png" alt=""></a>
+                            </div>
+                            <div class="brand-item">
+                                <a href="#"><img src="/assets/images/brand/brand-04.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-item">
+                                <a href="#"><img src="/assets/images/brand/brand-03.png" alt=""></a>
+                            </div>
+                            <div class="brand-item">
+                                <a href="#"><img src="/assets/images/brand/brand-01.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-item">
+                                <a href="#"><img src="/assets/images/brand/brand-04.png" alt=""></a>
+                            </div>
+                            <div class="brand-item">
+                                <a href="#"><img src="/assets/images/brand/brand-03.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-item">
+                                <a href="#"><img src="/assets/images/brand/brand-06.png" alt=""></a>
+                            </div>
+                            <div class="brand-item">
+                                <a href="#"><img src="/assets/images/brand/brand-03.png" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <th:block th:replace="~{home/layout/footer :: footer}"></th:block>
+    <!-- Footer -->
+    <!-- JS
+    ============================================ -->
+
+    <!-- Modernizer JS -->
+    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="/assets/js/vendor/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="/assets/js/vendor/popper.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap.min.js"></script>
+
+    <!-- Plugins JS -->
+    <script src="/assets/js/plugins/slick.min.js"></script>
+    <script src="/assets/js/plugins/swiper.min.js"></script>
+    <script src="/assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/plugins/countdown.min.js"></script>
+    <script src="/assets/js/plugins/image-zoom.min.js"></script>
+    <script src="/assets/js/plugins/fancybox.js"></script>
+    <script src="/assets/js/plugins/scrollup.min.js"></script>
+    <script src="/assets/js/plugins/jqueryui.min.js"></script>
+    <script src="/assets/js/plugins/ajax-contact.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+    <!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
+    <!--
+    <script src="assets/js/vendor/vendor.min.js"></script>
+    <script src="assets/js/plugins/plugins.min.js"></script>
+    -->
+
+    <!-- Main JS -->
+    <script src="/assets/js/main.js"></script>
+
+    <!-- End Footer -->
+</div>
+
+<!-- JS
+============================================ -->
+
+<!-- Modernizer JS -->
+<script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+<!-- jQuery JS -->
+<script src="/assets/js/vendor/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="/assets/js/vendor/popper.min.js"></script>
+<script src="/assets/js/vendor/bootstrap.min.js"></script>
+
+<!-- Plugins JS -->
+<script src="/assets/js/plugins/slick.min.js"></script>
+<script src="/assets/js/plugins/swiper.min.js"></script>
+<script src="/assets/js/plugins/jquery.nice-select.min.js"></script>
+<script src="/assets/js/plugins/countdown.min.js"></script>
+<script src="/assets/js/plugins/image-zoom.min.js"></script>
+<script src="/assets/js/plugins/fancybox.js"></script>
+<script src="/assets/js/plugins/scrollup.min.js"></script>
+<script src="/assets/js/plugins/jqueryui.min.js"></script>
+<script src="/assets/js/plugins/ajax-contact.js"></script>
+
+<!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
+<!--
+<script src="assets/js/vendor/vendor.min.js"></script>
+<script src="assets/js/plugins/plugins.min.js"></script>
+-->
+
+<!-- Main JS -->
+<script src="/assets/js/main.js"></script>
+
+</body>
+
+<!-- Mirrored from htmldemo.net/origine/origine/index by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:18 GMT -->
+</html>

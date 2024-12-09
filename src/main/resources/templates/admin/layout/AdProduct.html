@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- Mirrored from codervent.com/syndash/demo/vertical/table-editable.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Oct 2024 10:32:49 GMT -->
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Syndash - Bootstrap4 Admin Template</title>
+	<!--favicon-->
+	<link rel="icon" href="/assetsLTE/images/favicon-32x32.png" type="image/png" />
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+	<!--plugins-->
+	<link href="/assetsLTE/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="/assetsLTE/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+	<link href="/assetsLTE/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<!-- loader-->
+	<link href="/assetsLTE/css/pace.min.css" rel="stylesheet" />
+	<script src="/assetsLTE/js/pace.min.js"></script>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="/assetsLTE/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&amp;family=Roboto&amp;display=swap" />
+	<!-- Icons CSS -->
+	<link rel="stylesheet" href="/assetsLTE/css/icons.css" />
+	<!-- App CSS -->
+	<link rel="stylesheet" href="/assetsLTE/css/app.css" />
+	<link rel="stylesheet" href="/assetsLTE/css/dark-sidebar.css" />
+	<link rel="stylesheet" href="/assetsLTE/css/dark-theme.css" />
+</head>
+
+<body>
+	<!-- wrapper -->
+	<div class="wrapper">
+
+		<!--sidebar-wrapper + header-->
+		<th:block th:replace="admin/sp/sidebarHeader :: headerContent"></th:block>
+		<!--end sidebar-wrapper + header-->
+
+		<!--page-wrapper-->
+		<div class="page-wrapper">
+			<!--page-content-wrapper-->
+			<div class="page-content-wrapper">
+				<div class="page-content">
+					<!--breadcrumb-->
+					<div class="page-breadcrumb d-none d-md-flex align-items-center mb-3">
+						<div class="breadcrumb-title pe-3">Quản lí</div>
+						<div class="ps-3">
+							<nav aria-label="breadcrumb">
+								<ol class="breadcrumb mb-0 p-0">
+									<li class="breadcrumb-item"><a href="javascript:;"><i class='bx bx-cube'></i></a>
+									</li>
+									<li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
+								</ol>
+							</nav>
+						</div>
+					</div>
+					<!--end breadcrumb-->
+
+					<!--Card-->
+					<div class="card">
+						<!-- Đầu card với nút thu gọn -->
+<!--							<button class="btn btn-secondary" onclick="toggleCardBody(this)">Thu gọn/Mở rộng</button>-->
+						<!-- Nội dung card (form và bảng) -->
+						<div class="card-body ">
+							<div class="row">
+								<div class="col-md-6">
+									<h5>Bảng Sản Phẩm</h5>
+								</div>
+								<form th:action="@{/admin/layout/AdProduct}" class="col-md-6" method="get" >
+									<div class="input-group">
+										<input name="s" th:value="${s}" type="text" class="form-control" placeholder="Tìm kiếm..." >
+										<div class="input-group-append">
+											<button class="btn btn-outline-secondary" type="submit">
+												<i class="fa fa-search"></i>
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<hr>
+							<!-- Form để thêm User mới -->
+							<!-- Nút Thêm mới -->
+							<button id="addNewButton" class="btn btn-success" style="margin-bottom: 15px;">Thêm mới</button>
+
+							<!-- Form Thêm sản phẩm (ẩn ban đầu) -->
+							<div id="insertProductFormContainer" style="display: none; margin-top: 20px;">
+								<form id="insertProductForm" action="/admin/insertProduct" method="POST" enctype="multipart/form-data">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="categoryid2">Tên danh mục:</label>
+												<select class="form-control" id="categoryid2" name="categoryid" required>
+													<option value="" disabled selected>Chọn danh mục</option>
+													<option th:each="category : ${categoryList}"
+															th:value="${category.id}"
+															th:text="${category.categoryname}">
+													</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label for="productname">Tên sản phẩm:</label>
+												<input type="text" class="form-control" id="productname" name="productname" placeholder="Nhập tên sản phẩm ..." required>
+											</div>
+											<div class="form-group">
+												<label for="price">Giá:</label>
+												<input type="text" class="form-control" id="price" name="price" placeholder="Nhập giá.." required>
+											</div>
+											<div class="form-group">
+												<label for="stock">Stock:</label>
+												<input type="text" class="form-control" id="stock" name="stock" placeholder="Nhập số lượng còn.." required>
+											</div>
+											<div class="form-group">
+												<label for="unit">Unit:</label>
+												<input type="text" class="form-control" id="unit" name="unit" placeholder="Nhập đơn vị.." required>
+											</div>
+											<div class="form-group">
+												<label for="image1">Ảnh sản phẩm:</label>
+												<input type="file" class="form-control" id="image1" name="image1" accept="image/*" required>
+											</div>
+											<div class="form-group">
+												<label>Ảnh phụ:</label>
+												<input type="file" class="form-control" id="image2" name="image2" accept="image/*" >
+												<input type="file" class="form-control" id="image3" name="image3" accept="image/*" >
+												<input type="file" class="form-control" id="image4" name="image4" accept="image/*" >
+												<input type="file" class="form-control" id="image5" name="image5" accept="image/*" >
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="shortdesc">Nhập mô tả ngắn:</label>
+												<textarea class="form-control" id="shortdesc" name="shortdesc" placeholder="Nhập mô tả.." required></textarea>
+											</div>
+											<div class="form-group">
+												<label for="description">Nhập mô tả chi tiết:</label>
+												<textarea class="form-control" id="description" name="description" placeholder="Nhập mô tả chi tiết.." required></textarea>
+											</div>
+										</div>
+									</div>
+									<button style="margin-top: 15px" type="submit" class="btn btn-primary">Thêm</button>
+								</form>
+							</div>
+							<div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+							<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+							<!-- Bảng hiển thị dữ liệu -->
+							<div class="table-responsive mt-4">
+								<table class="table table-striped table-bordered mb-0" id="table5">
+									<thead class="thead-dark">
+									<tr>
+										<th scope="col">Product ID</th>
+										<th scope="col">Tên danh mục</th>
+										<th scope="col">Tên sản phẩm</th>
+										<th scope="col">Mô tả ngắn</th>
+										<th scope="col">Mô tả chi tiết</th>
+										<th style="min-width: 250px" scope="col">Ảnh chính</th>
+										<th scope="col">Ảnh phụ</th>
+										<th scope="col">Giá</th>
+										<th style="min-width: 100px" scope="col">Kho còn</th>
+										<th scope="col">Đơn vị</th>
+									</tr>
+									<tbody>
+									<tr th:each="u : ${dataProduct}">
+										<form action="/admin/updateProduct" method="post" style="display: contents;" enctype="multipart/form-data">
+											<input type="hidden" name="id" th:value="${u.id}" />
+											<td th:text="${u.id}"></td>
+											<td >
+												<select style="border: none" name="categoryid" disabled required>
+													<option th:value="${u.categoryid.id}" th:text="${u.categoryid.categoryname}"></option>
+													<option th:each="category : ${categoryList}"
+															th:value="${category.id}"
+															th:text="${category.categoryname}">
+													</option>
+												</select>
+											</td>
+											<td>
+												<input style="border: none" type="text" disabled name="productname" th:value="${u.productname}" />
+											</td>
+											<td>
+												<textarea style="border: none" disabled name="shortdesc" th:text="${u.shortdesc}"></textarea>
+											</td>
+											<td>
+												<textarea style="border: none" disabled name="description" th:text="${u.description}"></textarea>
+											</td>
+
+											<td >
+												<div class="row" style="max-width: 300px;" >
+													<div class="col-md-2">
+														<img th:src="${u.image}" alt="" style="width: 90px">
+														<input th:value="${u.image}" type="hidden" class="form-control" style="display: none; width: 60%; margin-left: 20px" name="image" accept="image/*">
+													</div>
+													<div class="col-md-10 d-flex justify-content-center align-items-center">
+														<input type="file" class="form-control" style="display: none; width: 60%; margin-left: 20px" name="imagesUpdate" accept="image/*">
+													</div>
+												</div>
+											</td>
+											<td>
+												<input style="border: none" type="text" disabled name="listimage" th:value="${u.listimage}" />
+											</td>
+											<td >
+												<input style="border: none; width: 100px"  type="text" disabled name="price" th:value="${u.price}" />
+											</td>
+											<td >
+												<input style="border: none; width: 50px"  type="text" disabled name="stock" th:value="${u.stock}" />
+											</td>
+											<td >
+												<input style="border: none; width: 50px"  type="text" disabled name="unit" th:value="${u.unit}" />
+											</td>
+											<td>
+												<button class="bEdit btn btn-sm btn-default" type="button"  onclick="editRow(this)" style="color: #0d95e8">
+													<span class="fa fa-edit"></span>
+												</button>
+
+												<a class="bDel btn btn-sm btn-default" th:href="@{/admin/deleteProduct(id=${u.id})}" type="button" >
+													<span class="fa fa-trash"></span>
+												</a>
+
+												<button class="bAcep btn btn-sm btn-default" type="submit"  style="display:none;color: #0fa004">
+													<span class="fa fa-check-circle"></span>
+												</button>
+												<button class="bCanc btn btn-sm btn-default" type="button" style="display:none;color: red" onclick="cancelEdit(this)">
+													<span class="fa fa-times-circle"></span>
+												</button>
+											</td>
+										</form>
+									</tr>
+									</tbody>
+								</table>
+								<!-- Phân trang-->
+								<div class="box-footer" style="margin-top: 15px;">
+									<nav aria-label="Page navigation">
+										<ul class="pagination pagination-sm justify-content-end">
+											<!-- Nút chuyển trang trước -->
+											<li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+												<a class="page-link" href="#" aria-label="Previous" th:href="@{/admin/layout/AdProduct(page=${currentPage > 1 ? currentPage - 1 : 1}, s=${s})}">
+													<span aria-hidden="true">&laquo;</span>
+												</a>
+											</li>
+
+											<!-- Hiển thị trang đầu nếu cần -->
+											<li class="page-item" th:if="${startPage > 1}">
+												<a class="page-link" th:href="@{/admin/layout/AdProduct(page=1, s=${s})}" th:text="'1'"></a>
+											</li>
+
+											<!-- Dấu "..." khi có trang ẩn trước -->
+											<li class="page-item" th:if="${startPage > 2}">
+												<span class="page-link">...</span>
+											</li>
+
+											<!-- Các trang phân trang từ startPage đến endPage -->
+											<li class="page-item" th:each="i: ${#numbers.sequence(startPage, endPage)}" th:classappend="${i == currentPage} ? 'active'">
+												<a class="page-link" th:href="@{/admin/layout/AdProduct(page=${i}, s=${s})}" th:text="${i}"></a>
+											</li>
+
+											<!-- Dấu "..." khi có trang ẩn sau -->
+											<li class="page-item" th:if="${endPage < totalPages - 1}">
+												<span class="page-link">...</span>
+											</li>
+
+											<!-- Hiển thị trang cuối nếu cần -->
+											<li class="page-item" th:if="${endPage < totalPages}">
+												<a class="page-link" th:href="@{/admin/layout/AdProduct(page=${totalPages}, s=${s})}" th:text="${totalPages}"></a>
+											</li>
+
+											<!-- Nút chuyển trang sau -->
+											<li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+												<a class="page-link" href="#" aria-label="Next" th:href="@{/admin/layout/AdProduct(page=${currentPage+1}, s=${s})}">
+													<span aria-hidden="true">&raquo;</span>
+												</a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+								<!-- Phân trang-->
+							</div>
+						</div>
+					</div>
+					<!--Card-->
+				</div>
+			</div>
+			<!--end page-content-wrapper-->
+		</div>
+		<!--end page-wrapper-->
+		<!--start overlay-->
+		<div class="overlay toggle-btn-mobile"></div>
+		<!--end overlay-->
+		<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+		<!--End Back To Top Button-->
+		<!--footer -->
+		<div class="footer">
+			<p class="mb-0">Syndash @2024 | Developed By : <a href="" target="_blank">Nguyễn Phú Hải</a>
+			</p>
+		</div>
+		<!-- end footer -->
+	</div>
+	<!-- end wrapper -->
+	<!--start switcher-->
+	<div class="switcher-body">
+		<button class="btn btn-primary btn-switcher shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="bx bx-cog bx-spin"></i></button>
+		<div class="offcanvas offcanvas-end shadow border-start-0 p-2" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling">
+		  <div class="offcanvas-header border-bottom">
+			<h5 class="offcanvas-title" id="offcanvasScrollingLabel">Theme Customizer</h5>
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+		  </div>
+		  <div class="offcanvas-body">
+			<h6 class="mb-0">Theme Variation</h6>
+			<hr>
+			<div class="form-check form-check-inline">
+			  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="lightmode" value="option1" checked>
+			  <label class="form-check-label" for="lightmode">Light</label>
+			</div>
+			<hr>
+			<div class="form-check form-check-inline">
+			  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="darkmode" value="option2">
+			  <label class="form-check-label" for="darkmode">Dark</label>
+			</div>
+			<hr>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="inlineRadioOptions" id="darksidebar" value="option3">
+				<label class="form-check-label" for="darksidebar">Semi Dark</label>
+			  </div>
+			  <hr>
+			 <div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="inlineRadioOptions" id="ColorLessIcons" value="option3">
+				<label class="form-check-label" for="ColorLessIcons">Color Less Icons</label>
+			  </div>
+		  </div>
+		</div>
+	   </div>
+	   <!--end switcher-->
+	<!-- JavaScript -->
+	<!-- Bootstrap JS -->
+	<script src="/assetsLTE/js/bootstrap.bundle.min.js"></script>
+
+	<!--plugins-->
+	<script src="/assetsLTE/js/jquery.min.js"></script>
+	<script src="/assetsLTE/plugins/simplebar/js/simplebar.min.js"></script>
+	<script src="/assetsLTE/plugins/metismenu/js/metisMenu.min.js"></script>
+	<script src="/assetsLTE/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+	<script src="/assetsLTE/plugins/edittable/bstable.js"></script>
+	<script>
+		 // Basic example
+		 var example1 = new BSTable("table1");
+		example1.init();
+		 // Example with a add new row button & only some columns editable & removed actions column label
+		var example2 = new BSTable("table2", {
+			editableColumns: "1,2",
+			$addButton: $('#table2-new-row-button'),
+			onEdit: function () {
+				console.log("EDITED");
+			},
+			advanced: {
+				columnLabel: ''
+			}
+		});
+		example2.init();
+		 // Example with dynamic table that requires BSTable refresh
+		 // TODO Create method to randomly seed a random amount of rows in the table
+		var example3 = new BSTable("table3");
+		example3.init();
+
+	</script>
+	<!-- App JS -->
+	<script src="/assetsLTE/js/app.js"></script>
+	<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+	<script>
+		// Kích hoạt CKEditor cho các textarea
+		CKEDITOR.replace('shortdesc');
+		CKEDITOR.replace('description');
+	</script>
+	<!-- JavaScript để xử lý hiển thị Form -->
+	<script>
+
+	</script>
+	<!-- App CSS bonus -->
+	<style>
+		.collapsible {
+			display: none; /* Mặc định ẩn đi */
+		}
+
+		.collapsible.show {
+			display: block; /* Hiển thị khi thêm lớp 'show' */
+		}
+	</style>
+</body>
+
+
+<!-- Mirrored from codervent.com/syndash/demo/vertical/table-editable.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 30 Oct 2024 10:32:52 GMT -->
+</html>

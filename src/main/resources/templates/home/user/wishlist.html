@@ -1,0 +1,198 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- Mirrored from htmldemo.net/origine/origine/wishlist.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:29 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Origine - Yêu thích</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico">
+
+    <!-- CSS
+	============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/bootstrap.min.css">
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/vendor/plaza-font.css">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/css/plugins/slick.css">
+    <link rel="stylesheet" href="/assets/css/plugins/swiper.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/animation.css">
+    <link rel="stylesheet" href="/assets/css/plugins/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/plugins/fancy-box.css">
+    <link rel="stylesheet" href="/assets/css/plugins/jqueryui.min.css">
+
+    <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from avobe) -->
+    <!--
+    <script src="/assets/js/vendor/vendor.min.js"></script>
+    <script src="/assets/js/plugins/plugins.min.js"></script>
+    -->
+
+    <!-- Main Style CSS (Please use minify version for better website load performance) -->
+    <link rel="stylesheet" href="/assets/css/style/style.css">
+    <!--<link rel="stylesheet" href="/assets/css/style.min.css">-->
+
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <!--    Header-->
+        <th:block th:replace="~{home/layout/header :: header(header=${headerDTO},cartList=${cartList1},wishlist=${totalWish}, auth=${UserGitSS})}"></th:block>
+        <!--    Header-->
+
+        <!-- breadcrumb-area start -->
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- breadcrumb-list start -->
+                        <ul class="breadcrumb-list">
+                            <li class="breadcrumb-item"><a href="/home/user/index">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Yêu thích</li>
+                        </ul>
+                        <!-- breadcrumb-list end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumb-area end -->
+
+
+        <!-- main-content-wrap start -->
+        <div class="main-content-wrap section-ptb">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="#" class="cart-table">
+                            <div class=" table-content table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="plantmore-product-thumbnail">Ảnh</th>
+                                            <th class="cart-product-name">Sản phẩm</th>
+                                            <th class="plantmore-product-price">Giá</th>
+                                            <th class="plantmore-product-stock-status">Tình trạng</th>
+                                            <th class="plantmore-product-add-cart">Thêm vào giỏ hàng</th>
+                                            <th class="plantmore-product-remove">Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody th:if="${wishlist} != null">
+                                        <tr th:each="u : ${wishlist}">
+                                            <td class="plantmore-product-thumbnail">
+                                                <a href="#"><img style="width: 150px" th:src="${u.image}" alt=""></a>
+                                            </td>
+                                            <td class="plantmore-product-name">
+                                                <a href="#" th:text="${u.productname}">Nullam maximus</a>
+                                            </td>
+                                            <td class="plantmore-product-price">
+                                                <span class="amount" th:text="${@numberFormatter.format(u.price * u.salePrice)}">$23.39</span>
+                                            </td>
+                                            <td class="plantmore-product-stock-status">
+                                                <span class="in-stock" th:if="${u.quantity} > 0" >Còn hàng</span>
+                                                <span class="out-stock" th:if="${u.quantity} == 0" >Hết hàng</span>
+                                            </td>
+                                            <td class="plantmore-product-add-cart">
+                                                <a th:if="${u.quantity} > 0" th:href="@{/home/user/addtocart(id = ${u.id})}">Thêm vào giỏ hàng</a>
+                                                <span th:if="${u.quantity} == 0" class="out-stock" >Hết hàng</span>
+                                            </td>
+                                            <td class="plantmore-product-remove">
+                                                <a href="#" class="remove-item" th:data-id="${u.id}">
+                                                    <i class="icon-x"></i>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main-content-wrap end -->
+
+
+        <!-- Footer -->
+        <th:block th:replace="home/layout/footer :: footer"></th:block>
+        <!-- Footer -->
+
+
+    </div>
+
+    <!-- JS
+============================================ -->
+
+    <!-- Modernizer JS -->
+    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="/assets/js/vendor/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="/assets/js/vendor/popper.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap.min.js"></script>
+
+    <!-- Plugins JS -->
+    <script src="/assets/js/plugins/slick.min.js"></script>
+    <script src="/assets/js/plugins/swiper.min.js"></script>
+    <script src="/assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="/assets/js/plugins/countdown.min.js"></script>
+    <script src="/assets/js/plugins/image-zoom.min.js"></script>
+    <script src="/assets/js/plugins/fancybox.js"></script>
+    <script src="/assets/js/plugins/scrollup.min.js"></script>
+    <script src="/assets/js/plugins/jqueryui.min.js"></script>
+     <script src="/assets/js/plugins/ajax-contact.js"></script>
+
+    <!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
+    <!--
+<script src="/assets/js/vendor/vendor.min.js"></script>
+<script src="/assets/js/plugins/plugins.min.js"></script>
+-->
+
+    <!-- Main JS -->
+    <script src="/assets/js/main.js"></script>
+    <script>
+        document.querySelectorAll(".remove-item").forEach(button => {
+            button.addEventListener("click", (e) => {
+                e.preventDefault();
+                const productId = button.getAttribute("data-id");
+
+                // Gửi yêu cầu xóa sản phẩm khỏi wishlist qua AJAX
+                fetch('/home/user/remove-wishlist-item', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: productId })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log('Xóa sản phẩm khỏi wishlist thành công!');
+                            // Xóa hàng của sản phẩm khỏi bảng
+                            button.closest("tr").remove();
+                        } else {
+                            console.error('Xóa sản phẩm khỏi wishlist thất bại:', data.message);
+                        }
+                    })
+                    .catch(error => console.error('Lỗi khi gửi AJAX:', error));
+            });
+        });
+
+    </script>
+
+</body>
+
+
+<!-- Mirrored from htmldemo.net/origine/origine/wishlist.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 22 Oct 2024 13:04:29 GMT -->
+</html>
